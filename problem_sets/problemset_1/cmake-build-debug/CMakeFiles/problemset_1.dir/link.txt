@@ -1,0 +1,1 @@
+/usr/bin/cc  -lm -g   CMakeFiles/problemset_1.dir/main.c.o  -o problemset_1 
