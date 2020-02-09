@@ -1,5 +1,5 @@
 from os import system
 
-system("gcc -c main.c")
-system("gcc -o main.exe main.o -lm")
+system("gcc -O3 -c main.c")
+system("gcc -O3 -o main.exe main.o -lm")
 system("./main.exe")
