@@ -9,7 +9,8 @@ void foo(int, double**, double**, double*, double*, double*);
 void foo_optimized(int, double**, double**, double*, double*, double*);
 void foo_optimized2(int, double**, double**, double*, double*, double*);
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[])
+{
   int n;
   double **a, **b, *d, *e, *c;
 
@@ -115,9 +116,6 @@ void foo_optimized(int n, double **a, double **b, double *c, double *d, double *
     for (i = 0; i < n; i++)
     {
       a[j][i] = b[j][i] + d[j]*e[i];
-      a[j+1][i] = b[j+1][i] + d[j+1]*e[i];
-      a[j+2][i] = b[j+2][i] + d[j+2]*e[i];
-      a[j+3][i] = b[j+3][i] + d[j+3]*e[i];
     }
   }
 }
@@ -127,35 +125,29 @@ void foo_optimized2(int n, double **a, double **b, double *c, double *d, double 
 {
   double tmp1, tmp2, tmp3;
   int remainder = n % 4;
-  tmp2 = exp(1./n);
 
   //Moved this part outta the double loop into a loop of its own to reduce the number of expensive function calls from n^2 to n for each.
-  for (int i = 0; i < n; i++)
-  {
-    c[i] = sin(pi*i/n) + exp(1.*i/n);
-  }
-
+  for (int i = 0; i < n; i++) c[i] = sin(pi*i/n) + exp(1.*i/n);
 
   //Loop unrolling of the inner-loop acquires more speedup than loop-unrolling of the outer loop due to contiguous memory allocation.
   for (int j = 0; j < n; j++)
   {
-    tmp1 = d[j];
     for (int i = 0; i < n; i += 4)
     {
-      a[j][i] = b[j][i] + tmp1*e[i];
-      a[j][i+1] = b[j][i+1] + tmp1*e[i+1];
-      a[j][i+2] = b[j][i+2] + tmp1*e[i+2];
-      a[j][i+3] = b[j][i+3] + tmp1*e[i+3];
+      a[j][i] = b[j][i] + d[j]*e[i];
+      a[j][i+1] = b[j][i+1] + d[j]*e[i+1];
+      a[j][i+2] = b[j][i+2] + d[j]*e[i+2];
+      a[j][i+3] = b[j][i+3] + d[j]*e[i+3];
     }
   }
 
   //remainder loop:
   for (int j = 0; j < n; j++)
   {
-    tmp1 = d[j];
+    //tmp1 = d[j];
     for (int i = n-remainder; i < n; i++)
     {
-      a[j][i] = b[j][i] + tmp1*e[i];
+      a[j][i] = b[j][i] + d[j]*e[i];
     }
   }
 }
