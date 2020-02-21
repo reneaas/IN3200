@@ -50,13 +50,16 @@ int main(int argc, char const *argv[])
   #pragma omp parallel
   {
     int id, num_threads, thread_length, start_m, end_m, local_m;
+    double *x_local, *A_local;
     id = omp_get_thread_num();
     num_threads = omp_get_num_threads();
     thread_length = m/num_threads;
     start_m = id*thread_length;
     end_m = start_m + thread_length;
     local_m = end_m-start_m;
-    dense_mat_vec(local_m, n, &x[start_m], &A[start_m*n], y);
+    x_local = &x[start_m];
+    A_local = &A[start_m*n];
+    dense_mat_vec(local_m, n, x_local, A_local, y);
   }
   end = omp_get_wtime();
   timeused = end-start;
