@@ -17,7 +17,13 @@ int main(){
     data[i] = (double*)malloc(m*sizeof(double));
   }
 
+
+  /*
+  Below the code reads data from a .txt file and from a .bin file.
+  */
+
   start = clock();
+  //Read data from file with n rows and m columns.
   for (int i = 0; i < n; i++)
   {
     for (int j = 0; j < m; j++)
@@ -32,6 +38,7 @@ int main(){
 
   fp = fopen("temperatures.txt", "r");
   start = clock();
+  //Read data from file with n rows and m columns.
   for (int i = 0; i < n; i++)
   {
     for (int j = 0; j < m; j++)
@@ -48,8 +55,12 @@ int main(){
   fclose(fp);
 
 
+  /*
+  The part below writes the written data to a .txt file and to a binary file.
+  */
 
 
+  //Write data to file with .txt extension.
   fp = fopen("temperatures_write_now.txt", "w");
   for (int i = 0; i < n; i++)
   {
@@ -63,9 +74,7 @@ int main(){
 
 
 
-
-
-  /*
+  //Write data to a binary file.
   fp = fopen("temperatures_write.bin", "wb");
   for (int i = 0; i < n; i++)
   {
@@ -75,10 +84,5 @@ int main(){
     }
   }
   fclose(fp);
-  */
-
-
-
-
   return 0;
 }
