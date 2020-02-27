@@ -5,7 +5,7 @@
 #include "read_graph_from_file1.h"
 
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
   //char *filename = "8-webpages.txt";
   //char *filename = "web-NotreDame.txt";
   char *filename = argv[1];
