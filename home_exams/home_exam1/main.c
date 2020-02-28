@@ -15,33 +15,25 @@ int main(int argc, char *argv[]) {
   //char *filename = argv[1];
 
 
-
   char **test_matrix;
   int N;
 
+  //Test of the function read_graph_from_file1
   start = clock();
   read_graph_from_file1(filename, &N, &test_matrix);
   end = clock();
   timeused = (double) (end-start)/CLOCKS_PER_SEC;
-  printf("N = %d\n", N);
+  printf("Timeused = %lf\n", timeused);
 
 
 
-  /*
-  Prints the matrix
-  */
-
-
-
+  //prints the matrix
   for (int i = 0; i < N; i++){
     for (int j = 0; j < N; j++){
       printf("%d ", test_matrix[i][j]);
     }
     printf("\n");
   }
-  
-
-
 
   return 0;
 }
