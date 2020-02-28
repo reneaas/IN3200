@@ -13,6 +13,9 @@ int main(int argc, char *argv[]) {
   char *filename = "8-webpages.txt";
   //char *filename = "web-NotreDame.txt";
   //char *filename = argv[1];
+
+
+
   char **test_matrix;
   int N;
 
@@ -23,9 +26,12 @@ int main(int argc, char *argv[]) {
   printf("N = %d\n", N);
 
 
+
   /*
   Prints the matrix
   */
+
+
 
   for (int i = 0; i < N; i++){
     for (int j = 0; j < N; j++){
@@ -33,6 +39,9 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
   }
+  
+
+
 
   return 0;
 }
