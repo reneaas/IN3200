@@ -53,15 +53,19 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D)
   It has to be a (N x N) - matrix.
   */
 
-  //*table2D = (double**)malloc((*N)*sizeof(double**));
+  //First we allocate the 2D-array.
   *table2D = (char**)calloc((*N), sizeof(char**));
   for (int i = 0; i < (*N); i++) (*table2D)[i] = (char*)calloc((*N), sizeof(char*));
 
+  //Then we fill the 2D-array with the values in the file.
   int i, j;
   for (int k = 0; k < N_links; k++){
     fscanf(fp, "%d %d", &i, &j);
     (*table2D)[j][i] = (char) 1;
   }
+
+  //To ensure that self-links are disabled, we set the diagonal elements to be zeroes.
+  for (int j = 0; j < *N; j++) (*table2D)[j][j] = (char) 0;
 
   fclose(fp);
 }
