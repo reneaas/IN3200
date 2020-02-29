@@ -42,8 +42,10 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   }
   fclose(fp);
 
-  //Here we sort the column array and count how many elements are on each row in the
-  //sparse matrix.
+  /*
+  Here we sort the column array and count how many elements are on each row in the
+  sparse matrix.
+  */
   int x = 0;
   for (int i = 0; i < *N; i++){
     for (int j = 0; j < *N_links; j++){
@@ -54,13 +56,17 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
       }
     }
   }
+  //The temporary arrays for the row and column elements have served their purpose.
+  free(tmp_row);
+  free(tmp_col);
 
-
-  //Here we create the row pointer.
+  //Fills the row pointer.
   int row_elems = 0;
   for (int i = 1; i < *N+1; i++){
     row_elems += row_count[i-1];
     (*row_ptr)[i] = row_elems;
   }
+
+  free(row_count);      //Free up memory.E
 
 }

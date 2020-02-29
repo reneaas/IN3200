@@ -38,10 +38,10 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D)
   for (int i = 0; i < (*N); i++) (*table2D)[i] = (char*)calloc((*N), sizeof(char*));
 
   //Fills the 2D-array with the values in the file.
-  int i, j;
+  int FromNodeId, ToNodeId;
   for (int k = 0; k < N_links; k++){
-    fscanf(fp, "%d %d", &i, &j);
-    (*table2D)[j][i] = (char) 1;
+    fscanf(fp, "%d %d", &FromNodeId, &ToNodeId);
+    (*table2D)[ToNodeId][FromNodeId] = (char) 1;
   }
 
   //To ensure that self-links are disabled, we set the diagonal elements to be zeroes.
