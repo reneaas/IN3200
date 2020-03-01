@@ -46,13 +46,15 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
 
   /*
   Here we sort the column array and count how many elements are on each row in the
-  sparse matrix.
+  sparse matrix. This part needs to remove self-links also. That is when tmp_row[j] = tmp_col[j].
+  This will necessarily create shorter column pointers.
+  One way to do this would be to count the number of self-links and create an array with this length instead.
   */
   int x = 0;
   for (int i = 0; i < *N; i++){
     printf("Sorting for row %d of %d\n", i, *N);
     for (int j = 0; j < *N_links; j++){
-      if (tmp_row[j] == i && tmp_row[j] != tmp_col[j]){
+      if (tmp_row[j] == i){
         (*col_idx)[x] = tmp_col[j];
         row_count[i] += 1;
         x++;
