@@ -16,7 +16,8 @@ int main(int argc, char *argv[]) {
   //char *filename = "web-NotreDame.txt";
   //char *filename = argv[1];
 
-  
+
+
   //This section tests read_graph_from_file1
   printf("----------------------------------------------------------------\n");
   printf("Testing read_graph_from_file1:\n");
@@ -27,7 +28,7 @@ int main(int argc, char *argv[]) {
   read_graph_from_file1(filename, &N, &test_matrix);
   end = clock();
   timeused = (double) (end-start)/CLOCKS_PER_SEC;
-  printf("Timeused = %lf\n", timeused);
+  printf("Timeused by read_graph_from_file1 = %lf seconds\n", timeused);
 
 
 
@@ -39,13 +40,19 @@ int main(int argc, char *argv[]) {
     printf("\n");
   }
 
+
   printf("----------------------------------------------------------------\n");
   //This section tests read_graph_from_file2
   printf("----------------------------------------------------------------\n");
   printf("Testing read_graph_from_file2:\n");
   printf("----------------------------------------------------------------\n");
   int *row_ptr, *col_idx;
+  start = clock();
   read_graph_from_file2(filename, &N, &N_links, &row_ptr, &col_idx);
+  end = clock();
+  timeused = (double) (end-start)/CLOCKS_PER_SEC;
+  printf("Timeused by read_graph_from_file2 = %lf seconds\n", timeused);
+
   char **matrix = (char**)calloc(N, sizeof(char*));
   for (int i = 0; i < N; i++) matrix[i] = (char*)calloc(N, sizeof(char));
 
@@ -68,12 +75,14 @@ int main(int argc, char *argv[]) {
 
   printf("----------------------------------------------\n");
 
+
   for (int i = 0; i < N; i++){
     for (int j = 0; j < N; j++){
       printf("%d ", matrix[i][j]);
     }
     printf("\n");
   }
+
 
 
 

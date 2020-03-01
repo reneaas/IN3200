@@ -34,13 +34,15 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   int *tmp_col = (int*)calloc(*N_links, sizeof(int));
   int *row_count = (int*)calloc(*N, sizeof(int));
 
-  int tmp_row_index, tmp_col_index;
+  int FromNodeId, ToNodeId;
   for (int k = 0; k < *N_links; k++){
-    fscanf(fp, "%d %d", &tmp_col_index, &tmp_row_index);
-    tmp_col[k] = tmp_col_index;
-    tmp_row[k] = tmp_row_index;
+    fscanf(fp, "%d %d", &FromNodeId, &ToNodeId);
+    tmp_col[k] = FromNodeId;
+    tmp_row[k] = ToNodeId;
   }
   fclose(fp);
+
+  printf("Finished reading the file, now we sort:\n");
 
   /*
   Here we sort the column array and count how many elements are on each row in the
@@ -48,8 +50,9 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   */
   int x = 0;
   for (int i = 0; i < *N; i++){
+    printf("Sorting for row %d of %d\n", i, *N);
     for (int j = 0; j < *N_links; j++){
-      if (tmp_row[j] == i){
+      if (tmp_row[j] == i && tmp_row[j] != tmp_col[j]){
         (*col_idx)[x] = tmp_col[j];
         row_count[i] += 1;
         x++;
@@ -67,6 +70,5 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     (*row_ptr)[i] = row_elems;
   }
 
-  free(row_count);      //Free up memory.E
-
+  free(row_count);      //Free up memory.
 }
