@@ -12,13 +12,13 @@ int main(int argc, char *argv[]) {
   int N, N_links;
   clock_t start, end;
   double timeused;
-  //char *filename = "8-webpages.txt";
-  char *filename = "web-NotreDame.txt";
+  char *filename = "8-webpages.txt";
+  //char *filename = "web-NotreDame.txt";
   //char *filename = argv[1];
 
 
 
-  /*
+
   //This section tests read_graph_from_file1
   printf("----------------------------------------------------------------\n");
   printf("Testing read_graph_from_file1:\n");
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
   }
-  */
+
 
 
   printf("----------------------------------------------------------------\n");
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
   printf("Timeused by read_graph_from_file2 = %lf seconds\n", timeused);
 
 
-  /*
+
   for (int i = 0; i < N+1; i++){
     printf("row_ptr[%d] = %d\n", i, row_ptr[i]);
   }
@@ -65,10 +65,10 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < N_links; i++){
     printf("col_idx[%d] = %d\n", i, col_idx[i]);
   }
-  */
 
 
-  /*
+
+
 
   char **matrix = (char**)calloc(N, sizeof(char*));
   for (int i = 0; i < N; i++) matrix[i] = (char*)calloc(N, sizeof(char));
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
   }
-  */
+  
 
 
 

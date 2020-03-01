@@ -52,7 +52,7 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   */
   int x = 0;
   for (int i = 0; i < *N; i++){
-    printf("Sorting for row %d of %d\n", i, *N);
+    printf("Sorting for row %d of %d\n", i, *N-1);
     for (int j = 0; j < *N_links; j++){
       if (tmp_row[j] == i){
         (*col_idx)[x] = tmp_col[j];
