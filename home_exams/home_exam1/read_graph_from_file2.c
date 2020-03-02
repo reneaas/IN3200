@@ -32,7 +32,6 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   *col_idx = (int*)calloc(*N_links, sizeof(int*));
   int *tmp_row = (int*)calloc(*N_links, sizeof(int));
   int *tmp_col = (int*)calloc(*N_links, sizeof(int));
-  int *row_count = (int*)calloc(*N, sizeof(int));
 
   int FromNodeId, ToNodeId;
   for (int k = 0; k < *N_links; k++){
@@ -56,21 +55,12 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     for (int j = 0; j < *N_links; j++){
       if (tmp_row[j] == i){
         (*col_idx)[x] = tmp_col[j];
-        row_count[i] += 1;
         x++;
       }
     }
+    (*row_ptr)[i+1] = x;
   }
   //The temporary arrays for the row and column elements have served their purpose.
   free(tmp_row);
   free(tmp_col);
-
-  //Fills the row pointer.
-  int row_elems = 0;
-  for (int i = 1; i < *N+1; i++){
-    row_elems += row_count[i-1];
-    (*row_ptr)[i] = row_elems;
-  }
-
-  free(row_count);      //Free up memory.
 }

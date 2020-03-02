@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 
 
 
-
+  /*
   //This section tests read_graph_from_file1
   printf("----------------------------------------------------------------\n");
   printf("Testing read_graph_from_file1:\n");
@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
   }
+  */
 
 
 
@@ -53,7 +54,6 @@ int main(int argc, char *argv[]) {
   read_graph_from_file2(filename, &N, &N_links, &row_ptr, &col_idx);
   end = clock();
   timeused = (double) (end-start)/CLOCKS_PER_SEC;
-  printf("Timeused by read_graph_from_file2 = %lf seconds\n", timeused);
 
 
 
@@ -65,10 +65,11 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < N_links; i++){
     printf("col_idx[%d] = %d\n", i, col_idx[i]);
   }
+  printf("Timeused by read_graph_from_file2 = %lf seconds\n", timeused);
 
 
 
-
+  /*
 
   char **matrix = (char**)calloc(N, sizeof(char*));
   for (int i = 0; i < N; i++) matrix[i] = (char*)calloc(N, sizeof(char));
@@ -90,7 +91,9 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
   }
-  
+
+  */
+
 
 
 
