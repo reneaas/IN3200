@@ -98,6 +98,9 @@ int main(int argc, char *argv[]) {
   /*
   Test the function count_mutual_links1
   */
+  printf("----------------------------------------------------------------\n");
+  printf("Testing count_mutual_links1:\n");
+  printf("----------------------------------------------------------------\n");
   int *num_involvements = (int*)calloc(N, sizeof(int));
 
   start = clock();
@@ -112,6 +115,9 @@ int main(int argc, char *argv[]) {
   /*
   Test the function count_mutual_links2.
   */
+  printf("----------------------------------------------------------------\n");
+  printf("Testing count_mutual_links2:\n");
+  printf("----------------------------------------------------------------\n");
   for (int i = 0; i < N; i++) num_involvements[i] = 0;  //Reset values
   total_mutual_web_linkages = 0;      //reset values.
 

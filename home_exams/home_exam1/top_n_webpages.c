@@ -32,4 +32,7 @@ void top_n_webpages(int *num_involvements, int n)
     printf("%d                            %d                         %d\n", i+1, top_webpages[i], webpage_number[i]+1);
   }
   printf("-------------------------------------------------------------------------\n");
+
+  free(top_webpages);
+  free(webpage_number);
 }
