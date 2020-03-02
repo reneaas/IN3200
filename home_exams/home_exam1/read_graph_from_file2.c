@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
 
 void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, int **col_idx)
 {
@@ -27,19 +25,27 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   fgets(line_buffer, max_line_length, fp);
   free(line_buffer);        //The buffer has served its purpose.
 
-  //Allocate arrays for CRS storage scheme.
-  *row_ptr = (int*)calloc(*N+1, sizeof(int*));
-  *col_idx = (int*)calloc(*N_links, sizeof(int*));
+  //Allocate temporary arrays
   int *tmp_row = (int*)calloc(*N_links, sizeof(int));
   int *tmp_col = (int*)calloc(*N_links, sizeof(int));
 
-  int FromNodeId, ToNodeId;
+  int FromNodeId, ToNodeId, self_link_counter;
+  self_link_counter = 0;
+  int l = 0;
   for (int k = 0; k < *N_links; k++){
     fscanf(fp, "%d %d", &FromNodeId, &ToNodeId);
-    tmp_col[k] = FromNodeId;
-    tmp_row[k] = ToNodeId;
+    if (FromNodeId != ToNodeId){
+      tmp_col[l] = FromNodeId;
+      tmp_row[l] = ToNodeId;
+      l++;
+    }
+    else{
+      self_link_counter++;
+    }
   }
   fclose(fp);
+  *N_links = *N_links - self_link_counter;
+  printf("N_links after self link removal = %d\n", *N_links);
 
   printf("Finished reading the file, now we sort:\n");
 
@@ -49,6 +55,10 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   This will necessarily create shorter column pointers.
   One way to do this would be to count the number of self-links and create an array with this length instead.
   */
+
+  //Allocate row_ptr and col_idx.
+  *row_ptr = (int*)calloc(*N+1, sizeof(int*));
+  *col_idx = (int*)calloc(*N_links, sizeof(int*));
   int x = 0;
   for (int i = 0; i < *N; i++){
     printf("Sorting for row %d of %d\n", i, *N-1);
