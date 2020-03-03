@@ -28,6 +28,7 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   //Allocate temporary arrays
   int *tmp_row = (int*)calloc(*N_links, sizeof(int));
   int *tmp_col = (int*)calloc(*N_links, sizeof(int));
+  int *row_count = (int*)calloc(*N, sizeof(int));
 
   int FromNodeId, ToNodeId, self_link_counter;
   self_link_counter = 0;
@@ -37,6 +38,7 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     if (FromNodeId != ToNodeId){
       tmp_col[l] = FromNodeId;
       tmp_row[l] = ToNodeId;
+      row_count[ToNodeId] += 1;
       l++;
     }
     else{
@@ -44,37 +46,45 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     }
   }
   fclose(fp);
-  *N_links = *N_links - self_link_counter;
-  printf("N_links after self link removal = %d\n", *N_links);
 
-  printf("Finished reading the file, now we sort:\n");
-
-  /*
-  Here we sort the column array and count how many elements are on each row in the
-  sparse matrix. This part needs to remove self-links also. That is when tmp_row[j] = tmp_col[j].
-  This will necessarily create shorter column pointers.
-  One way to do this would be to count the number of self-links and create an array with this length instead.
-  */
-
-  //Allocate row_ptr and col_idx.
+  //Create the row_ptr array using the row_count array.
   *row_ptr = (int*)calloc(*N+1, sizeof(int*));
-  *col_idx = (int*)calloc(*N_links, sizeof(int*));
-  int x = 0;
+  int count = 0;
   for (int i = 0; i < *N; i++){
-    //printf("Sorting for row %d of %d\n", i, *N-1);
-    for (int j = 0; j < *N_links; j++){
-      if (tmp_row[j] == i){
-        (*col_idx)[x] = tmp_col[j];
-        x++;
+    count += row_count[i];
+    (*row_ptr)[i+1] = count;
+  }
+  free(row_count);        //Free up memory, it has served its purpose at this point.
+
+
+  *N_links = *N_links - self_link_counter;        //Update number of links by removing number of self-links.
+
+
+  //We copy FromNodeIds and ToNodeIds into arrays of the correct size to simplify sorting later:
+  *col_idx = (int*)calloc(*N_links, sizeof(int*));
+  int *row_elems = (int*)calloc(*N_links, sizeof(int));
+  for (int i = 0; i < *N_links; i++){
+    (*col_idx)[i] = tmp_col[i];
+    row_elems[i] = tmp_row[i];
+  }
+  //Now the values of interest are copied into arrays of the correct length, so we free up memory.
+  free(tmp_col);
+  free(tmp_row);
+
+  //Now we sort the row_elems and *col_idx arrays using shell sort:
+  int tmp1, tmp2, i, j, gap;
+  for (gap = *N_links/2; gap > 0; gap /= 2){
+    for (i = gap; i < *N_links; i++){
+      tmp1 = row_elems[i];
+      tmp2 = (*col_idx)[i];
+      for (j = i; j >= gap && row_elems[j-gap] > tmp1; j -= gap){
+        row_elems[j] = row_elems[j-gap];
+        (*col_idx)[j] = (*col_idx)[j-gap];
       }
+    row_elems[j] = tmp1;
+    (*col_idx)[j] = tmp2;
     }
-    (*row_ptr)[i+1] = x;
   }
 
-  //The temporary arrays for the row and column elements have served their purpose.
-  free(tmp_row);
-  free(tmp_col);
-
-
-
+  free(row_elems);        //Free up memory, we no longer need row_elems.
 }

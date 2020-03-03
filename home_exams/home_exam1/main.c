@@ -13,13 +13,13 @@ int main(int argc, char *argv[]) {
   int N, N_links;
   clock_t start, end;
   double timeused;
-  char *filename = "8-webpages.txt";
-  //char *filename = "web-NotreDame.txt";
+  //char *filename = "8-webpages.txt";
+  char *filename = "web-NotreDame.txt";
   //char *filename = argv[1];
 
 
 
-
+  /*
   //This section tests read_graph_from_file1
   printf("----------------------------------------------------------------\n");
   printf("Testing read_graph_from_file1:\n");
@@ -41,7 +41,8 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
   }
-  
+  */
+
 
 
 
@@ -71,7 +72,7 @@ int main(int argc, char *argv[]) {
 
 
 
-
+  /*
   char **matrix = (char**)calloc(N, sizeof(char*));
   for (int i = 0; i < N; i++) matrix[i] = (char*)calloc(N, sizeof(char));
 
@@ -92,6 +93,7 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
   }
+  */
 
 
 
@@ -106,6 +108,7 @@ int main(int argc, char *argv[]) {
   printf("----------------------------------------------------------------\n");
 
 
+  /*
   start = clock();
   total_mutual_web_linkages = count_mutual_links1(N, test_matrix, num_involvements);
   end = clock();
@@ -113,7 +116,7 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < N; i++) printf("Webpage %d is involved = %d times\n", i+1, num_involvements[i]);
   printf("Total mutual web linkages = %d\n", total_mutual_web_linkages);
   printf("Timeused by count_mutual_links1 = %lf seconds\n", timeused);
-
+  */
 
   /*
   Test the function count_mutual_links2.
@@ -129,7 +132,7 @@ int main(int argc, char *argv[]) {
   end = clock();
   timeused = (double) (end-start)/CLOCKS_PER_SEC;
 
-  for (int i = 0; i < N; i++) printf("Webpage %d is involved = %d times\n", i+1, num_involvements[i]);
+  //for (int i = 0; i < N; i++) printf("Webpage %d is involved = %d times\n", i+1, num_involvements[i]);
   printf("Total mutual web linkages = %d\n", total_mutual_web_linkages);
   printf("Timeused by count_mutual_links2 = %lf seconds\n", timeused);
 
