@@ -61,7 +61,7 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   *col_idx = (int*)calloc(*N_links, sizeof(int*));
   int x = 0;
   for (int i = 0; i < *N; i++){
-    printf("Sorting for row %d of %d\n", i, *N-1);
+    //printf("Sorting for row %d of %d\n", i, *N-1);
     for (int j = 0; j < *N_links; j++){
       if (tmp_row[j] == i){
         (*col_idx)[x] = tmp_col[j];
@@ -70,7 +70,11 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
     }
     (*row_ptr)[i+1] = x;
   }
+
   //The temporary arrays for the row and column elements have served their purpose.
   free(tmp_row);
   free(tmp_col);
+
+
+
 }
