@@ -10,9 +10,9 @@ void read_graph_from_file1(char *filename, int *N, char ***table2D)
   FILE *fp = fopen(filename, "r");
   int N_links;
   //Read the first 2 lines of the file. We want the third one to extract the desired parameters.
-  for (int i = 0; i < 2; i++){
-    fgets(line_buffer, max_line_length, fp);
-  }
+
+  fgets(line_buffer, max_line_length, fp);
+  fgets(line_buffer, max_line_length, fp);
 
   //Here we exctract the number of nodes and edges of the graph.
   fscanf(fp,  "%*s %*s %d %*s %d", N, &N_links);

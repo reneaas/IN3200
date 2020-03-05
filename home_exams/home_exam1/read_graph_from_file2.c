@@ -8,9 +8,9 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   FILE *fp = fopen(filename, "r");
 
   //Read the first 2 lines of the file. We want the third one to extract the desired parameters.
-  for (int i = 0; i < 2; i++){
-    fgets(line_buffer, max_line_length, fp);
-  }
+  fgets(line_buffer, max_line_length, fp);
+  fgets(line_buffer, max_line_length, fp);
+
 
   //Here we exctract the number of nodes and edges of the graph.
   fscanf(fp,  "%*s %*s %d %*s %d", N, N_links);
@@ -57,7 +57,7 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
   free(row_count);        //Free up memory, it has served its purpose at this point.
 
 
-  *N_links = *N_links - self_link_counter;        //Update number of links by removing number of self-links.
+  *N_links -= self_link_counter;        //Update number of links by removing number of self-links.
 
 
   //We copy FromNodeIds and ToNodeIds into arrays of the correct size to simplify sorting later:

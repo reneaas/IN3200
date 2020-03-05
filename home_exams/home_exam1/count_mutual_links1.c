@@ -18,9 +18,9 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   Then we check whether both of these webpages link to an inbound webpage.
   If so, we count it for each inbound webpage and also add to the total webpage linkage count.
   */
-  for (outbound1 = 0; outbound1 < N; outbound1++){
-    for (outbound2 = outbound1 + 1; outbound2 < N; outbound2++){
-      for (inbound = 0; inbound < N; inbound++){
+  for (inbound = 0; inbound < N; inbound++){
+    for (outbound1 = 0; outbound1 < N; outbound1++){
+      for (outbound2 = outbound1 + 1; outbound2 < N; outbound2++){
         if (outbound1 != outbound2 &&
             table2D[inbound][outbound1] == table2D[inbound][outbound2] &&
             table2D[inbound][outbound1] == 1)
