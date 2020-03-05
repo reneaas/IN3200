@@ -18,7 +18,7 @@ void top_n_webpages(int num_webpages, int *num_involvements, int n)
          webpage_number[top_webpage_count] = j;
       }
     }
-    num_involvements[webpage_number[top_webpage_count]] = -1;     //This webpage is no longer interesting, so we remove it altogether.
+    num_involvements[webpage_number[top_webpage_count]] = -1;     //This webpage is no longer interesting, so we remove it altogether by setting it to -1.
     top_webpage_count++;
   }
   printf("-------------------------------------------------------------------------\n");
