@@ -11,8 +11,6 @@ int main(int argc, char *argv[]) {
 
   int N, N_links;
   double start, end, timeused;
-  //char *filename = "8-webpages.txt";
-  //char *filename = "web-NotreDame.txt";
   char *filename = argv[1];
 
   //This section tests read_graph_from_file1

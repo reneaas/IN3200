@@ -22,11 +22,12 @@ FromNodeId = np.array(FromNodeId)
 ToNodeId = np.array(ToNodeId)
 
 
-#Check where values are too large and set them to a value different from actual node ids (i.e -1):
+#Check where values are too large in FromNodeId and remove them.
 indices1 = np.where(FromNodeId > nodes)
 FromNodeId[indices1] = -1
 ToNodeId[indices1] = -1
 
+#Check where values are too large ToNodeId and remove them.
 indices2 = np.where(ToNodeId > nodes)
 FromNodeId[indices2] = -1
 ToNodeId[indices2] = -1

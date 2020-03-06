@@ -81,8 +81,8 @@ void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, 
         row_elems[j] = row_elems[j-gap];
         (*col_idx)[j] = (*col_idx)[j-gap];
       }
-    row_elems[j] = tmp1;
-    (*col_idx)[j] = tmp2;
+      row_elems[j] = tmp1;
+      (*col_idx)[j] = tmp2;
     }
   }
 

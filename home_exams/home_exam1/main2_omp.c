@@ -12,8 +12,6 @@ int main(int argc, char *argv[]){
   int N, N_links;
   double start, end;
   double timeused;
-  //char *filename = "8-webpages.txt";
-  //r *filename = "web-NotreDame.txt";
   char *filename = argv[1];
 
 

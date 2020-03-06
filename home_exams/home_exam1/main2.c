@@ -4,18 +4,16 @@
 #include "read_graph_from_file2.h"
 #include "count_mutual_links2.h"
 #include "top_n_webpages.h"
+#include "top_n_webpages2.h"
 
 int main(int argc, char *argv[]){
 
   int N, N_links;
   clock_t start, end;
   double timeused;
-  //char *filename = "8-webpages.txt";
-  //r *filename = "web-NotreDame.txt";
   char *filename = argv[1];
 
 
-  printf("-------------------------------------------------------------------------\n");
   //This section tests read_graph_from_file2
   printf("-------------------------------------------------------------------------\n");
   printf("Testing read_graph_from_file2:\n");
@@ -46,10 +44,8 @@ int main(int argc, char *argv[]){
 
 
 
-  /*
-  Testing top_n_webpages
-  */
-  int n = 8;
+  //testing top_n_webpages
+  int n = 10;
   printf("-------------------------------------------------------------------------\n");
   printf("Testing top_n_webpages:\n");
   start = clock();
