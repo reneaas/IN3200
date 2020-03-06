@@ -11,7 +11,6 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
   int mutual_web_links: Used to logically distinguish it from row_elements.
                         It's just equal to row_elements-1.
   */
-  
   int row_elements, mutual_web_links;
   for (int i = 0; i < N; i++){
     row_elements = row_ptr[i+1]-row_ptr[i];
@@ -21,6 +20,7 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
       total_mutual_web_linkages += mutual_web_links;   //Counting mutual web links, though we count them twice to avoid any if-tests. Multiplied with 0.5 at the end.
     }
   }
+
   //We counted each mutual web link twice, so we multiply with 0.5
   total_mutual_web_linkages *= 0.5;
 

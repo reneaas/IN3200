@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
 
   //Test the function count_mutual_links1_omp
 
-  omp_set_num_threads(8);
+  omp_set_num_threads(4);
   printf("-------------------------------------------------------------------------\n");
   printf("Testing count_mutual_links1_omp:\n");
   printf("-------------------------------------------------------------------------\n");
@@ -64,6 +64,8 @@ int main(int argc, char *argv[]) {
   //for (int i = 0; i < N; i++) printf("Webpage %d is involved = %d times\n", i+1, num_involvements[i]);
   printf("Total mutual web linkages = %d\n", total_mutual_web_linkages_omp);
   printf("Timeused by count_mutual_links1_omp = %lf seconds\n", timeused);
+
+
 
   return 0;
 }

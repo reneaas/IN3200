@@ -1,22 +1,51 @@
 import numpy as np
 
 
+infilename = "web-NotreDame.txt"
+N = int(input("Give number of nodes = "))
+nodes = N-1;
+
+FromNodeId = []
+ToNodeId = []
+with open(infilename, "r") as infile:
+    infile.readline()
+    infile.readline()
+    infile.readline()
+    infile.readline()
+    lines = infile.readlines()
+    for line in lines:
+        vals = line.split()
+        FromNodeId.append(int(vals[0]))
+        ToNodeId.append(int(vals[-1]))
+
+FromNodeId = np.array(FromNodeId)
+ToNodeId = np.array(ToNodeId)
+
+
+#Check where values are too large and set them to a value different from actual node ids (i.e -1):
+indices1 = np.where(FromNodeId > nodes)
+FromNodeId[indices1] = -1
+ToNodeId[indices1] = -1
+
+indices2 = np.where(ToNodeId > nodes)
+FromNodeId[indices2] = -1
+ToNodeId[indices2] = -1
+
+
+#Fill lists with the actual node id pairs we want:
+numbers1 = []
+numbers2 = []
+for i in range(len(FromNodeId)):
+    if FromNodeId[i] != -1:
+        numbers1.append(FromNodeId[i])
+        numbers2.append(ToNodeId[i])
+
+nodes = N
+edges = len(numbers1)
+print("Nodes = ", nodes)
+print("Edges = ", edges)
+
 outfilename = "test_webpages.txt"
-
-nodes = 1000;
-edges = 1000;
-np.random.seed(1001)
-#numbers1 = np.random.randint(nodes, size = edges)
-numbers1 = [i for i in range(nodes)]*2
-numbers1 = np.array(numbers1)
-numbers1 = numbers1[np.random.permutation(nodes*2)]
-#np.random.seed(1000)
-numbers2 = np.array([i for i in range(nodes)]*2)
-numbers2 = numbers2[np.random.permutation(nodes*2)]
-
-print(numbers1[0])
-print(numbers2[0])
-
 with open(outfilename, "w") as outfile:
     outfile.write("# Directed graph (each unordered pair of nodes is saved once): " + outfilename + "\n")
     outfile.write("# Just an example\n")
