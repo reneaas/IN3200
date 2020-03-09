@@ -1,33 +1,19 @@
-all: parallel1 parallel2 serial1 serial2
+test: test_prog
+	./test_prog.exe web-NotreDame.txt
 
-parallel1: main1_omp execute_main1_omp
+test_prog: test_prog.c
+	gcc -fopenmp 	-otest_prog.exe test_prog.c read_graph_from_file1.c read_graph_from_file2.c count_mutual_links1.c count_mutual_links2.c
 
-parallel2: main2_omp execute_main2_omp
 
-serial1: main1 execute_main1
+serial: test_serial
+	./test_serial.exe test_webpages.txt web-NotreDame.txt
 
-serial2: main2 execute_main2
+parallel: test_parallel
+	./test_parallel.exe test_webpages.txt web-NotreDame.txt
 
-main1: main1.c
-	gcc -omain1.exe main1.c read_graph_from_file1.c count_mutual_links1.c top_n_webpages.c
 
-main2: main2.c
-	gcc -omain2.exe main2.c read_graph_from_file2.c count_mutual_links2.c top_n_webpages.c top_n_webpages2.c
+test_serial: test_prog.c
+	gcc -otest_serial.exe test_prog.c read_graph_from_file1.c read_graph_from_file2.c count_mutual_links1.c count_mutual_links2.c top_n_webpages2.c
 
-execute_main1:
-	./main1.exe test_webpages.txt
-
-execute_main2:
-	./main2.exe web-NotreDame.txt
-
-main1_omp: main1_omp.c
-	gcc -fopenmp -omain1_omp.exe main1_omp.c read_graph_from_file1.c count_mutual_links1.c count_mutual_links1_omp.c
-
-execute_main1_omp:
-	./main1_omp.exe test_webpages.txt
-
-main2_omp: main2_omp.c
-	gcc -fopenmp -omain2_omp.exe main2_omp.c read_graph_from_file2.c count_mutual_links2.c count_mutual_links2_omp.c
-
-execute_main2_omp:
-	./main2_omp.exe web-NotreDame.txt
+test_parallel: test_prog.c
+	gcc -fopenmp -otest_parallel.exe test_prog.c read_graph_from_file1.c read_graph_from_file2.c count_mutual_links1.c count_mutual_links2.c top_n_webpages2.c
