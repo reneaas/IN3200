@@ -1,0 +1,161 @@
+\documentclass[english,notitlepage,reprint]{revtex4-1}  % defines the basic parameters of the document
+%For preview: skriv i terminal: latexmk -pdf -pvc filnavn
+
+
+
+% if you want a single-column, remove reprint
+
+% allows special characters (including æøå)
+\usepackage[utf8]{inputenc}
+%\usepackage[english]{babel}
+
+%% note that you may need to download some of these packages manually, it depends on your setup.
+%% I recommend downloading TeXMaker, because it includes a large library of the most common packages.
+
+\usepackage{physics,amssymb}  % mathematical symbols (physics imports amsmath)
+\usepackage{graphicx}         % include graphics such as plots
+\usepackage{xcolor}           % set colors
+\usepackage{hyperref}         % automagic cross-referencing (this is GODLIKE)
+\usepackage{listings}         % display code
+\usepackage{subfigure}        % imports a lot of cool and useful figure commands
+\usepackage{float}
+%\usepackage[section]{placeins}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{subfigure}
+% defines the color of hyperref objects
+% Blending two colors:  blue!80!black  =  80% blue and 20% black
+\hypersetup{ % this is just my personal choice, feel free to change things
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}}
+
+%% Defines the style of the programming listing
+%% This is actually my personal template, go ahead and change stuff if you want
+
+
+
+%% USEFUL LINKS:
+%%
+%%   UiO LaTeX guides:        https://www.mn.uio.no/ifi/tjenester/it/hjelp/latex/
+%%   mathematics:             https://en.wikibooks.org/wiki/LaTeX/Mathematics
+
+%%   PHYSICS !                https://mirror.hmc.edu/ctan/macros/latex/contrib/physics/physics.pdf
+
+%%   the basics of Tikz:       https://en.wikibooks.org/wiki/LaTeX/PGF/Tikz
+%%   all the colors!:          https://en.wikibooks.org/wiki/LaTeX/Colors
+%%   how to draw tables:       https://en.wikibooks.org/wiki/LaTeX/Tables
+%%   code listing styles:      https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+%%   \includegraphics          https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
+%%   learn more about figures  https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+%%   automagic bibliography:   https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management  (this one is kinda difficult the first time)
+%%   REVTeX Guide:             http://www.physics.csbsju.edu/370/papers/Journal_Style_Manuals/auguide4-1.pdf
+%%
+%%   (this document is of class "revtex4-1", the RVTeX Guide explains how the class works)
+
+
+%% CREATING THE .pdf FILE USING LINUX IN THE TERMINAL
+%%
+%% [terminal]$ pdflatex template.tex
+%%
+%% Run the command twice, always.
+%% If you want to use \footnote, you need to run these commands (IN THIS SPECIFIC ORDER)
+%%
+%% [terminal]$ pdflatex template.tex
+%% [terminal]$ bibtex template
+%% [terminal]$ pdflatex template.tex
+%% [terminal]$ pdflatex template.tex
+%%
+%% Don't ask me why, I don't know.
+
+\begin{document}
+\title{Home exam 1 - IN3200}      % self-explanatory
+\author{Candidate nr:}          % self-explanatory
+\date{\today}                             % self-explanatory
+\noaffiliation                            % ignore this
+                                          % marks the end of the abstracthttps://github.com/reneaas/fys2160.git
+                               
+\begin{abstract}
+This is an abstract
+
+\end{abstract}
+\maketitle 
+\section{Introduction}
+\section{Methods}
+\subsection*{Shellsort}
+In order to sort the data in the functions read\_graph\_from\_file2 and 
+top\_n\_webpages, shellsort was applied. It's therefore instructive to list the actual algorithm. 
+\begin{algorithm}[h!]
+	\caption{Shellsort (ascending order)}
+	\label{algo:metro}
+	\begin{algorithmic}
+		\For{$\text{gap} = N/2; \ \text{gap} > 0; \ \text{gap} /=2$}
+		\For{$i = \text{gap}; \ i < N; \ i = i + 1$}
+		\State $\text{tmp} = \text{arr}[i]$;
+		\For{$j = i; \ j >= \text{gap}; \ j = j- \text{gap} $}
+		\If{$\text{arr}[j-\text{gap}] < \text{tmp}$}
+		\State break;
+		\EndIf
+		\State $\text{arr}[j] = \text{arr}[j-\text{gap}]$;
+		\EndFor
+		\State $\text{arr}[j] = \text{tmp}$;
+	\end{algorithmic}
+\end{algorithm}
+\section{Results}
+
+\subsection*{Timing of serial codes}
+The measured time of the serial implementations of the various functions are shown in table \ref{tab:serial_codes}.
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{c@{\hspace{0.5cm}}c}
+		\hline
+		Function name & Time in seconds \\
+		\hline
+		read\_graph\_from\_file1 & $0.174369$\\
+		count\_mutual\_links1 & $1133.817$\\
+		read\_graph\_from\_file2 & $0.990147$\\
+		count\_mutual\_links2 & $0.008971$\\
+		top\_n\_webpages & $0.068952$\\
+		\hline
+	\end{tabular}\caption{The table shows the measured time using clock() from the Ctime-library. read\_graph\_from\_file1 and count\_mutual\_links1 was applied to a web-graph containing $N = 10000$ nodes and $N_\text{links} = 37841$ edges as found in the file test\_webpages.txt. The data in this file was extracted from web-NotreDame.txt.  read\_graph\_from\_file2 and count\_mutual\_links2 was applied directly to the web-graph contained in web-NotreDame.txt. This file contained $N = 325729$ nodes and $N_\text{links} = 1479143$ edges.}\label{tab:serial_codes}
+\end{table}
+
+\subsection*{Parallelized version of count\_mutual\_links1}
+Using OpenMP to parallelize count\_mutual\_links1, the results in table \ref{tab:count_mutual_links1_parallel} were obtained.
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{c@{\hspace{0.5cm}}c}
+		\hline
+		Number of threads & Time in seconds \\
+		\hline
+		$1$ & $1038.65$\\
+		$2$ & $572.79$\\
+		$4$ & $374.42$\\
+		$8$ & $312.68$\\
+		\hline
+	\end{tabular}\caption{The table presents the time used by the function count\_mutual\_links1 as a function of threads. The web-graph used contained $N = 10000$ nodes and $N_\text{links} = 37841$ edges as found in the file test\_webpages.txt. The data in this file was extracted from web-NotreDame.txt. All times were measured using omp\_get\_wtime().}\label{tab:count_mutual_links1_parallel}
+\end{table}
+
+\subsection*{Parallelized version of count\_mutual\_links2}
+Using OpenMP to parallelize count\_mutual\_links2 and measuring the time used by the function for different number of threads yielded the results shown in table \ref{tab:count_mutual_links2_parallel}.
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{c@{\hspace{0.5cm}}c}
+		\hline
+		Number of threads & Time in seconds \\
+		\hline
+		$1$ & $0.007014$\\
+		$2$ & $0.004470$\\
+		$4$ & $0.003221$\\
+		$8$ & $0.004967$\\
+		\hline
+	\end{tabular}\caption{The table shows the time used by count\_mutual\_links2 when parallelized with OpenMP as a function of number of threads. The function was applied to the web-graph contained in web-NotreDame.txt containing $N = 325729$ nodes and $N_\text{links} = 1479143$ edges.. The timing was done using the OpenMP library function omp\_get\_wtime().}\label{tab:count_mutual_links2_parallel}
+\end{table}
+\section{Discussion}
+\section{Conclusion}
+
+
+
+\end{document}
+

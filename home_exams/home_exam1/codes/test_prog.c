@@ -34,7 +34,7 @@ int main(int argc, char *argv[]){
 
     //Test the function count_mutual_links1
     printf("-------------------------------------------------------------------------\n");
-    printf("Testing count_mutual_links1 (parallelized):\n");
+    printf("Testing count_mutual_links1 (parallelized with OpenMP):\n");
     printf("-------------------------------------------------------------------------\n");
     FILE *fp = fopen("count_mutual_links1_parallel_results.txt", "w");
     fprintf(fp, "Timeused                Threads\n");
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]){
     printf("-------------------------------------------------------------------------\n");
     printf("Testing top_n_webpages:\n");
     start = omp_get_wtime();
-    top_n_webpages2(N, num_involvements, n);
+    top_n_webpages(N, num_involvements, n);
     end = omp_get_wtime();
     timeused = end-start;
     printf("Timeused by top_n_webpages = %lf seconds\n", timeused);
@@ -86,7 +86,7 @@ int main(int argc, char *argv[]){
 
 
     printf("-------------------------------------------------------------------------\n");
-    printf("Testing count_mutual_links2:\n");
+    printf("Testing count_mutual_links2 (parallelized with OpenMP):\n");
     printf("-------------------------------------------------------------------------\n");
 
     fp = fopen("count_mutual_links2_parallel_results.txt", "w");
@@ -113,7 +113,7 @@ int main(int argc, char *argv[]){
     printf("-------------------------------------------------------------------------\n");
     printf("Testing top_n_webpages:\n");
     start = omp_get_wtime();
-    top_n_webpages2(N, num_involvements, n);
+    top_n_webpages(N, num_involvements, n);
     end = omp_get_wtime();
     timeused = end-start;
     printf("Timeused by top_n_webpages = %lf seconds\n", timeused);
@@ -163,7 +163,7 @@ int main(int argc, char *argv[]){
     printf("-------------------------------------------------------------------------\n");
     printf("Testing top_n_webpages:\n");
     start = clock();
-    top_n_webpages2(N, num_involvements, n);
+    top_n_webpages(N, num_involvements, n);
     end = clock();
     timeused = (double) (end-start)/CLOCKS_PER_SEC;
     printf("Timeused by top_n_webpages = %lf seconds\n", timeused);
