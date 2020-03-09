@@ -21,12 +21,12 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   int tmp;
   #if defined(_OPENMP)
   {
-    #pragma omp parallel for private(inbound, outbound1, outbound2) reduction(+:total_mutual_web_linkages)
+    #pragma omp parallel for private(inbound, outbound1, outbound2, tmp) reduction(+:total_mutual_web_linkages)
     for (inbound = 0; inbound < N; inbound++){
       for (outbound1 = 0; outbound1 < N; outbound1++){
         tmp = table2D[inbound][outbound1];
         for (outbound2 = outbound1 + 1; outbound2 < N; outbound2++){
-          if (table2D[inbound][outbound2] == 1&& tmp == 1)
+          if (table2D[inbound][outbound2] == 1 && tmp == 1)
               {
                 total_mutual_web_linkages++;
                 num_involvements[outbound1]++;

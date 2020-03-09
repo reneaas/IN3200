@@ -5,7 +5,7 @@
 #include "read_graph_from_file2.h"
 #include "count_mutual_links1.h"
 #include "count_mutual_links2.h"
-#include "top_n_webpages2.h"
+#include "top_n_webpages.h"
 #include <omp.h>
 
 int main(int argc, char *argv[]){
@@ -204,7 +204,7 @@ int main(int argc, char *argv[]){
     printf("-------------------------------------------------------------------------\n");
     printf("Testing top_n_webpages:\n");
     start = clock();
-    top_n_webpages2(N, num_involvements, n);
+    top_n_webpages(N, num_involvements, n);
     end = clock();
     timeused = (double) (end-start)/CLOCKS_PER_SEC;
     printf("Timeused by top_n_webpages = %lf seconds\n", timeused);
