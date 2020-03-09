@@ -111,23 +111,3 @@ This function is split into two using the following code structure:
 }
 #endif
 ```
-
-The algorithm in itself is simple, and the parallelized code is identical to the serial one except for a insertion of a pragma omp for with a private and reduction clause. The algorithm is as follows.
-We pick a row $i$, then we pick a column $j$. Then we traverse the row looking for instances where $A_{ij} = A_{ik} = 1$. If this is true, then we add to the number of
-links $j$ and $k$ is outbound. In the code, $i = \text{inbound}$, $j = \text{outbound1}$ and $k = \text{outbound2}$, as follows.
-
-```c
-for (inbound = 0; inbound < N; inbound++){
-  for (outbound1 = 0; outbound1 < N; outbound1++){
-    tmp = table2D[inbound][outbound1];
-    for (outbound2 = outbound1 + 1; outbound2 < N; outbound2++){
-      if (table2D[inbound][outbound2] == 1 && tmp == 1)
-          {
-            total_mutual_web_linkages++;
-            num_involvements[outbound1]++;
-            num_involvements[outbound2]++;
-          }
-    }
-  }
-}
-```
