@@ -71,7 +71,7 @@
 
 \begin{document}
 \title{Home exam 1 - IN3200}      % self-explanatory
-\author{Candidate nr:}          % self-explanatory
+\author{Candidate nr: 15129}          % self-explanatory
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
                                           % marks the end of the abstracthttps://github.com/reneaas/fys2160.git
@@ -82,6 +82,7 @@ This is an abstract
 \end{abstract}
 \maketitle 
 \section{Introduction}
+In this report we look into the main algorithmic aspects of the code implementations and present time measurements of the serial and parallelized codes.
 \section{Methods}
 \subsection*{Shellsort}
 In order to sort the data in the functions read\_graph\_from\_file2 and 
@@ -108,7 +109,7 @@ top\_n\_webpages, shellsort was applied. It's therefore instructive to list the 
 The measured time of the serial implementations of the various functions are shown in table \ref{tab:serial_codes}.
 \begin{table}[h!]
 	\centering
-	\begin{tabular}{c@{\hspace{0.5cm}}c}
+	\begin{tabular}{c@{\hspace{2cm}}c}
 		\hline
 		Function name & Time in seconds \\
 		\hline
@@ -125,7 +126,7 @@ The measured time of the serial implementations of the various functions are sho
 Using OpenMP to parallelize count\_mutual\_links1, the results in table \ref{tab:count_mutual_links1_parallel} were obtained.
 \begin{table}[h!]
 	\centering
-	\begin{tabular}{c@{\hspace{0.5cm}}c}
+	\begin{tabular}{c@{\hspace{2cm}}c}
 		\hline
 		Number of threads & Time in seconds \\
 		\hline
@@ -141,7 +142,7 @@ Using OpenMP to parallelize count\_mutual\_links1, the results in table \ref{tab
 Using OpenMP to parallelize count\_mutual\_links2 and measuring the time used by the function for different number of threads yielded the results shown in table \ref{tab:count_mutual_links2_parallel}.
 \begin{table}[h!]
 	\centering
-	\begin{tabular}{c@{\hspace{0.5cm}}c}
+	\begin{tabular}{c@{\hspace{2cm}}c}
 		\hline
 		Number of threads & Time in seconds \\
 		\hline

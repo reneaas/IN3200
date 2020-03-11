@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <omp.h>
 
 int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num_involvements)
 {
@@ -21,9 +20,9 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
       row_elems = row_ptr[i+1] - tmp;
       for (int j = 0; j < row_elems; j++){
         num_involvements[col_idx[j+tmp]] += row_elems-1; //We add the mutual web link contribution to col_idx[j + row_ptr[i]]. Each column is equally involved in a given row.
-        total_mutual_web_linkages += j;   //Counting mutual web links
-
+        //total_mutual_web_linkages += j;                //Counting mutual web links
       }
+      total_mutual_web_linkages += (row_elems)*(row_elems-1);
     }
   }
   #else
@@ -33,11 +32,12 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
       row_elems = row_ptr[i+1]-tmp;
       for (int j = 0; j < row_elems; j++){
         num_involvements[col_idx[j+tmp]] += row_elems-1;    //We add the mutual web link contribution to col_idx[j+row_ptr[i]]. Each column is equally involved in a given row.
-        total_mutual_web_linkages += j;   //Counting mutual web links
+        //total_mutual_web_linkages += j;   //Counting mutual web links
       }
+      total_mutual_web_linkages += (row_elems)*(row_elems-1);
     }
   }
   #endif
 
-  return total_mutual_web_linkages;
+  return 0.5*total_mutual_web_linkages;
 }
