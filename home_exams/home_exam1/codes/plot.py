@@ -1,6 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
+if not os.path.exists("results/"):
+    os.makedirs("results/")
+
+os.system("rm results/count_mutual_links1_parallel_results.txt")
+os.system("rm results/count_mutual_links2_parallel_results.txt")
+
+os.system("mv count_mutual_links1_parallel_results.txt results/")
+os.system("mv count_mutual_links2_parallel_results.txt results/")
 filename1 = "results/count_mutual_links1_parallel_results.txt"
 filename2 = "results/count_mutual_links2_parallel_results.txt"
 
@@ -33,15 +42,19 @@ threads = np.log2(threads)
 plt.figure()
 plt.plot(threads, timeused1)
 plt.scatter(threads,timeused1, color = "r")
-plt.xlabel("log2(threads)")
-plt.ylabel("timeused [s]")
+plt.xlabel("log2(threads)", size = 14)
+plt.ylabel("timeused [s]", size = 14)
+plt.xticks(size = 14)
+plt.yticks(size = 14)
 plt.savefig("count_mutual_links1_parallel.pdf")
 plt.close()
 
 plt.figure()
 plt.plot(threads, timeused2)
 plt.scatter(threads,timeused2, color = "r")
-plt.xlabel("log2(threads)")
-plt.ylabel("timeused [s]")
-plt.savefig("count_mutual_links2_parallel.pdf")
-plt.close()
+plt.xlabel("log2(threads)", size = 14)
+plt.ylabel("timeused [s]", size = 14)
+plt.xticks(size = 14)
+plt.yticks(size = 14)
+#plt.savefig("count_mutual_links2_parallel.pdf")
+plt.show()

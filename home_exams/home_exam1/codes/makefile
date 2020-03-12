@@ -1,8 +1,8 @@
 serial: test_serial.exe
-	./test_serial.exe test_webpages.txt web-NotreDame.txt
+	./test_serial.exe test_webpages.txt test_webpages.txt
 
 parallel: test_parallel.exe
-	./test_parallel.exe test_webpages.txt web-NotreDame.txt
+	./test_parallel.exe test_webpages.txt web-NotreDame.txt && python3 plot.py
 
 test: test_cml
 	./test_cml.exe test_webpages.txt

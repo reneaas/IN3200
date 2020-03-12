@@ -5,7 +5,7 @@
 \BOOKMARK [2][-]{section*.5}{Webgraphs}{section*.4}% 5
 \BOOKMARK [2][-]{section*.6}{Hyperlink matrix representation of webgraphs}{section*.4}% 6
 \BOOKMARK [2][-]{section*.7}{Compressed row storage \(CRS\) of the hyperlink matrix}{section*.4}% 7
-\BOOKMARK [2][-]{section*.8}{Mutual web links}{section*.4}% 8
+\BOOKMARK [2][-]{section*.8}{Mutual web linkages and number of involvements}{section*.4}% 8
 \BOOKMARK [2][-]{section*.9}{Reading the Webgraph from file}{section*.4}% 9
 \BOOKMARK [3][-]{section*.10}{Hyperlink matrix storage}{section*.9}% 10
 \BOOKMARK [3][-]{section*.11}{CRS storage}{section*.9}% 11

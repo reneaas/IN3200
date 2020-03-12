@@ -10,7 +10,7 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   */
 
   int total_mutual_web_linkages =0;
-  int i, j, k, tmp;
+  int i, j, k;
   /*
   This algorithm is rather simple and does the following:
   For a chosen inbound web-page inbound1, we run over every other possible website larger than inbound1.
@@ -19,7 +19,7 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   */
   #if defined(_OPENMP)
   {
-    #pragma omp parallel for private(i, j, k, tmp) reduction(+:total_mutual_web_linkages)
+    #pragma omp parallel for private(i, j, k) reduction(+:total_mutual_web_linkages)
     for (i = 0; i < N; i++){
       for (j = 0; j < N; j++){
         if (table2D[i][j] == 1){
@@ -54,22 +54,6 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   }
   #endif
 
+
   return total_mutual_web_linkages;
 }
-
-/*
-for (i = 0; i < N; i++){
-  for (j = 0; j < N; j++){
-    if (table2D[i][j] == 1){
-      for (k = j + 1; k < N; k++){
-        if (table2D[i][k] == 1)
-            {
-              total_mutual_web_linkages++;
-              num_involvements[j]++;
-              num_involvements[k]++;
-            }
-      }
-    }
-  }
-}
-*/

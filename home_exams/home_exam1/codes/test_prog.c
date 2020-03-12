@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 
   #if defined(_OPENMP)
   {
-    int num_threads[10] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512};
+    int num_threads[11] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
     double start, end;
 
     //This section tests read_graph_from_file1
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]){
     fprintf(fp, "Timeused                Threads\n");
     int *num_involvements;
     int total_mutual_web_linkages;
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < 11; i++){
       omp_set_num_threads(num_threads[i]);
       num_involvements = (int*)calloc(N, sizeof(int));
       total_mutual_web_linkages = 0;
@@ -52,6 +52,7 @@ int main(int argc, char *argv[]){
       printf("Total mutual web linkages = %d\n", total_mutual_web_linkages);
       printf("Timeused by count_mutual_links1 = %lf seconds\n", timeused);
       fprintf(fp ,"%lf          %d\n", timeused, num_threads[i]);
+      top_n_webpages(N, num_involvements, (int) 10);
       free(num_involvements);
     }
     fclose(fp);
@@ -91,7 +92,7 @@ int main(int argc, char *argv[]){
 
     fp = fopen("count_mutual_links2_parallel_results.txt", "w");
     fprintf(fp, "Timeused                Threads\n");
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < 11; i++){
       omp_set_num_threads(num_threads[i]);
       num_involvements = (int*)calloc(N, sizeof(int)); //reset values
       total_mutual_web_linkages = 0;      //reset values.
@@ -106,6 +107,7 @@ int main(int argc, char *argv[]){
     free(num_involvements);
     fclose(fp);
     num_involvements = (int*)calloc(N, sizeof(int));
+    omp_set_num_threads(4);
     total_mutual_web_linkages = count_mutual_links2(N, N_links, row_ptr, col_idx, num_involvements);
 
     //testing top_n_webpages

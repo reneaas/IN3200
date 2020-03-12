@@ -118,20 +118,20 @@ In this report we look into the main algorithmic aspects of the code implementat
 \section{Methods}
 
 \subsection*{Webgraphs}
-Webgraphs describe hyperlinks between to webpages $i$ and $j$. Each webpage is represented by a node and the hyperlink between them is known as an edge. In this report I'll define $N$ as the number of nodes and $N_\text{links}$ as the number of edges in a \textit{directed }webgraph. By directed, we mean that the hyperlink $i\to j$ is distinct from $j\to i$.
+Webgraphs describe hyperlinks between to webpages $i$ and $j$. Each webpage is represented by a node and the hyperlink between them is known as an edge. In this report I'll define $N$ as the number of nodes and $N_\text{links}$ as the number of edges in a \textit{directed }webgraph. By directed, we mean that the hyperlink $j\to i$ is distinct from $j\to i$.
 
 \subsection*{Hyperlink matrix representation of webgraphs}
 Webgraphs can be represented by what is called a hyperlink matrix $A$. An element $A_{ij} = 1$ if there exists a hyperlink $i \to j$. If no such link exists, $A_{ij} = 0$.
 
 \subsection*{Compressed row storage (CRS) of the hyperlink matrix}
 For large webgraphs, it's expected that the hyperlink matrix will consist mainly of zeros. Since the storage in the matrix format scales with $N^2$ where $N$ is the number of nodes, storing the data becomes a bottleneck. The CRS format is based on to different arrays, a row pointer storing how many row elements that accumulates of a set of rows $n$ and column index array that stores the column index for a given element. Let $r$ denote the row pointer. The general form of the row pointer is 
-\begin{equation}
-	r = (0, r_0, r_0 + r_1,...,r_0 + r_1 + \cdots + r_{N-1}),
+\begin{equation}\label{eq:row_pointer}
+	r = (0, r_0, r_0 + r_1,..., r_0 + r_1 + \cdots + r_{N-1}),
 \end{equation} 
 where $r_i$ is the number of row elements of row $i$. The row pointer thus has length $N+1$. The column index array is of length $N_\text{links}$ and stores the column indices for each row. To extract how many row elements there are row $i$, we take the difference $r_{i}-r_{i-1}$.
 
-\subsection*{Mutual web links}
-Define mutual web links here.
+\subsection*{Mutual web linkages and number of involvements}
+\textit{Mutual web linkages} is defined as the number of times to outbound nodes $i$ and $j$ are directly linked to a inbound node $k$, with $i \neq j \neq k$. That is, it's a count of how many times the exists a hyperlink $i \to k$ and $j\to k$ simultaneously. The \textit{number of involvements} a given node has is defined as the number of times a given node is involved as an outbound node. That is how many times a node $i$ is involved in $i \to k$ with $j\to k$.
 
 \subsection*{Reading the Webgraph from file}
 \subsubsection{Hyperlink matrix storage}
@@ -162,7 +162,7 @@ for (gap = *N_links/2; gap > 0; gap /= 2){
   }
 }
 \end{lstlisting}
-Here, row\_elems is just there to temporarily store row node ids. The row pointer is simply made using an array counting how many elements each row has. The following code demonstrates this.
+Here, row\_elems is just there to temporarily store row node ids. The row pointer is simply made using an array counting how many elements each row has consistent with eq. \eqref{eq:row_pointer}. The following code demonstrates this.
 \begin{lstlisting}[style=customc]
 *row_ptr = (int*)calloc(*N+1, sizeof(int*));
 int count = 0;
@@ -197,36 +197,23 @@ The measured time of the serial implementations of the various functions are sho
 \end{table}
 
 \subsection*{Parallelized version of count\_mutual\_links1}
-Using OpenMP to parallelize count\_mutual\_links1, the results in table \ref{tab:count_mutual_links1_parallel} were obtained.
-\begin{table}[h!]
-	\centering
-	\begin{tabular}{c@{\hspace{2cm}}c}
-		\hline
-		Number of threads & Time in seconds \\
-		\hline
-		$1$ & $0.154304$\\
-		$2$ & $0.099997$\\
-		$4$ & $0.094823$\\
-		$8$ & $0.061277$\\
-		\hline
-	\end{tabular}\caption{The table presents the time used by the function count\_mutual\_links1 as a function of threads. The web-graph used contained $N = 25000$ nodes and $N_\text{links} = 76837$ edges as found in the file test\_webpages.txt. The data in this file was extracted from web-NotreDame.txt. All times were measured using omp\_get\_wtime().}\label{tab:count_mutual_links1_parallel}
-\end{table}
+Using OpenMP to parallelize count\_mutual\_links1 gave the results shown in figure \ref{fig:count_mutual_links1_parallel}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.5]{count_mutual_links1_parallel.pdf}
+    \caption{The figure shows the time used  in seconds by count\_mutual\_links1 on a webgraph consisting of $N = 50000$ nodes and $N_\text{links} = 146823$ edges. The webgraph was extracted from web-NotreDame.txt. The red points show the actual measured datapoints.}\label{fig:count_mutual_links1_parallel}
+\end{figure}
 
 \subsection*{Parallelized version of count\_mutual\_links2}
-Using OpenMP to parallelize count\_mutual\_links2 and measuring the time used by the function for different number of threads yielded the results shown in table \ref{tab:count_mutual_links2_parallel}.
-\begin{table}[h!]
-	\centering
-	\begin{tabular}{c@{\hspace{2cm}}c}
-		\hline
-		Number of threads & Time in seconds \\
-		\hline
-		$1$ & $0.003617$\\
-		$2$ & $0.001156$\\
-		$4$ & $0.000713$\\
-		$8$ & $0.000716$\\
-		\hline
-	\end{tabular}\caption{The table shows the time used by count\_mutual\_links2 when parallelized with OpenMP as a function of number of threads. The function was applied to the web-graph contained in web-NotreDame.txt containing $N = 325729$ nodes and $N_\text{links} = 1479143$ edges. The timing was done using the OpenMP library function omp\_get\_wtime().}\label{tab:count_mutual_links2_parallel}
-\end{table}
+Using OpenMP to parallelize count\_mutual\_links2 and measuring the time used by the function for different number of threads yielded the results shown in figure \ref{fig:count_mutual_links2_parallel}.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.5]{count_mutual_links2_parallel.pdf}
+    \caption{The figure shows the time used  in seconds by count\_mutual\_links2 on a webgraph consisting of $N = 325729$ nodes and $N_\text{links} = 1479143$ edges. The webgraph is found in the file web-NotreDame.txt}\label{fig:count_mutual_links2_parallel}
+\end{figure}
+
 \section{Discussion}
 \section{Conclusion}
 
