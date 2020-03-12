@@ -1,19 +1,19 @@
-\BOOKMARK [0][-]{section*.2}{Home exam 1 - IN3200}{}% 2
-\BOOKMARK [1][-]{section*.1}{Abstract}{section*.2}% 1
-\BOOKMARK [1][-]{section*.3}{Introduction}{section*.2}% 3
-\BOOKMARK [1][-]{section*.4}{Methods}{section*.2}% 4
-\BOOKMARK [2][-]{section*.5}{Webgraphs}{section*.4}% 5
-\BOOKMARK [2][-]{section*.6}{Hyperlink matrix representation of webgraphs}{section*.4}% 6
-\BOOKMARK [2][-]{section*.7}{Compressed row storage \(CRS\) of the hyperlink matrix}{section*.4}% 7
-\BOOKMARK [2][-]{section*.8}{Mutual web linkages and number of involvements}{section*.4}% 8
-\BOOKMARK [2][-]{section*.9}{Reading the Webgraph from file}{section*.4}% 9
-\BOOKMARK [3][-]{section*.10}{Hyperlink matrix storage}{section*.9}% 10
-\BOOKMARK [3][-]{section*.11}{CRS storage}{section*.9}% 11
-\BOOKMARK [2][-]{section*.12}{Counting mutual web links}{section*.4}% 12
-\BOOKMARK [3][-]{section*.13}{Counting mutual web links with the hyperlink matrix}{section*.12}% 13
-\BOOKMARK [1][-]{section*.14}{Results}{section*.2}% 14
-\BOOKMARK [2][-]{section*.15}{Timing of serial codes}{section*.14}% 15
-\BOOKMARK [2][-]{section*.16}{Parallelized version of count\137mutual\137links1}{section*.14}% 16
-\BOOKMARK [2][-]{section*.17}{Parallelized version of count\137mutual\137links2}{section*.14}% 17
-\BOOKMARK [1][-]{section*.18}{Discussion}{section*.2}% 18
-\BOOKMARK [1][-]{section*.19}{Conclusion}{section*.2}% 19
+\BOOKMARK [0][-]{section*.1}{Home exam 1 - IN3200}{}% 1
+\BOOKMARK [1][-]{section*.2}{Introduction}{section*.1}% 2
+\BOOKMARK [1][-]{section*.3}{Methods}{section*.1}% 3
+\BOOKMARK [2][-]{section*.4}{Webgraphs}{section*.3}% 4
+\BOOKMARK [2][-]{section*.5}{Hyperlink matrix representation of webgraphs}{section*.3}% 5
+\BOOKMARK [2][-]{section*.6}{Compressed row storage \(CRS\) of the hyperlink matrix}{section*.3}% 6
+\BOOKMARK [2][-]{section*.7}{Mutual web linkages and number of involvements}{section*.3}% 7
+\BOOKMARK [2][-]{section*.8}{Reading the Webgraph from file}{section*.3}% 8
+\BOOKMARK [3][-]{section*.9}{Hyperlink matrix storage}{section*.8}% 9
+\BOOKMARK [3][-]{section*.10}{CRS storage}{section*.8}% 10
+\BOOKMARK [2][-]{section*.11}{Counting mutual web links}{section*.3}% 11
+\BOOKMARK [3][-]{section*.12}{Counting mutual web links with the hyperlink matrix}{section*.11}% 12
+\BOOKMARK [3][-]{section*.13}{Counting mutual web links with the CRS format}{section*.11}% 13
+\BOOKMARK [2][-]{section*.14}{Finding top webpages}{section*.3}% 14
+\BOOKMARK [1][-]{section*.15}{Results}{section*.1}% 15
+\BOOKMARK [2][-]{section*.16}{Timing of serial codes}{section*.15}% 16
+\BOOKMARK [2][-]{section*.17}{Parallelized version of count\137mutual\137links1}{section*.15}% 17
+\BOOKMARK [2][-]{section*.18}{Parallelized version of count\137mutual\137links2}{section*.15}% 18
+\BOOKMARK [1][-]{section*.19}{Concluding Remarks}{section*.1}% 19

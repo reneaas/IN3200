@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
 
 int count_mutual_links1(int N, char **table2D, int *num_involvements)
 {
@@ -9,7 +10,7 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   int *num_involvements: 1D array of length N to store number of involvements.
   */
 
-  int total_mutual_web_linkages =0;
+  int total_mutual_web_linkages = 0;
   int i, j, k;
   /*
   This algorithm is rather simple and does the following:
