@@ -1,4 +1,4 @@
-\documentclass[english,notitlepage,reprint]{revtex4-1}  % defines the basic parameters of the document
+\documentclass[english,notitlepage, reprint]{revtex4-1}  % defines the basic parameters of the document
 %For preview: skriv i terminal: latexmk -pdf -pvc filnavn
 
 
@@ -18,6 +18,8 @@
 \usepackage{hyperref}         % automagic cross-referencing (this is GODLIKE)
 \usepackage{listings}         % display code
 \usepackage{subfigure}        % imports a lot of cool and useful figure commands
+
+
 \usepackage{float}
 %\usepackage[section]{placeins}
 \usepackage{algorithm}
@@ -30,6 +32,36 @@
     linkcolor={red!50!black},
     citecolor={blue!50!black},
     urlcolor={blue!80!black}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{customc}{
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=\parindent,
+	language=C,
+	showstringspaces=false,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries\color{green!40!black},
+	commentstyle=\itshape\color{purple!40!black},
+	identifierstyle=\color{blue},
+	stringstyle=\color{orange},
+}
+
+\lstdefinestyle{customasm}{
+	belowcaptionskip=1\baselineskip,
+	frame=L,
+	xleftmargin=\parindent,
+	language=[x86masm]Assembler,
+	basicstyle=\footnotesize\ttfamily,
+	commentstyle=\itshape\color{purple!40!black},
+}
+
+\lstset{escapechar=@,style=customc}
 
 %% Defines the style of the programming listing
 %% This is actually my personal template, go ahead and change stuff if you want
@@ -84,25 +116,67 @@ This is an abstract
 \section{Introduction}
 In this report we look into the main algorithmic aspects of the code implementations and present time measurements of the serial and parallelized codes.
 \section{Methods}
-\subsection*{Shellsort}
-In order to sort the data in the functions read\_graph\_from\_file2 and 
-top\_n\_webpages, shellsort was applied. It's therefore instructive to list the actual algorithm. 
-\begin{algorithm}[h!]
-	\caption{Shellsort (ascending order)}
-	\label{algo:metro}
-	\begin{algorithmic}
-		\For{$\text{gap} = N/2; \ \text{gap} > 0; \ \text{gap} /=2$}
-		\For{$i = \text{gap}; \ i < N; \ i = i + 1$}
-		\State $\text{tmp} = \text{arr}[i]$;
-		\For{$j = i; \ j >= \text{gap}; \ j = j- \text{gap} $}
-		\If{$\text{arr}[j-\text{gap}] < \text{tmp}$}
-		\State break;
-		\EndIf
-		\State $\text{arr}[j] = \text{arr}[j-\text{gap}]$;
-		\EndFor
-		\State $\text{arr}[j] = \text{tmp}$;
-	\end{algorithmic}
-\end{algorithm}
+
+\subsection*{Webgraphs}
+Webgraphs describe hyperlinks between to webpages $i$ and $j$. Each webpage is represented by a node and the hyperlink between them is known as an edge. In this report I'll define $N$ as the number of nodes and $N_\text{links}$ as the number of edges in a \textit{directed }webgraph. By directed, we mean that the hyperlink $i\to j$ is distinct from $j\to i$.
+
+\subsection*{Hyperlink matrix representation of webgraphs}
+Webgraphs can be represented by what is called a hyperlink matrix $A$. An element $A_{ij} = 1$ if there exists a hyperlink $i \to j$. If no such link exists, $A_{ij} = 0$.
+
+\subsection*{Compressed row storage (CRS) of the hyperlink matrix}
+For large webgraphs, it's expected that the hyperlink matrix will consist mainly of zeros. Since the storage in the matrix format scales with $N^2$ where $N$ is the number of nodes, storing the data becomes a bottleneck. The CRS format is based on to different arrays, a row pointer storing how many row elements that accumulates of a set of rows $n$ and column index array that stores the column index for a given element. Let $r$ denote the row pointer. The general form of the row pointer is 
+\begin{equation}
+	r = (0, r_0, r_0 + r_1,...,r_0 + r_1 + \cdots + r_{N-1}),
+\end{equation} 
+where $r_i$ is the number of row elements of row $i$. The row pointer thus has length $N+1$. The column index array is of length $N_\text{links}$ and stores the column indices for each row. To extract how many row elements there are row $i$, we take the difference $r_{i}-r_{i-1}$.
+
+\subsection*{Mutual web links}
+Define mutual web links here.
+
+\subsection*{Reading the Webgraph from file}
+\subsubsection{Hyperlink matrix storage}
+To extract the data to store in a hyperlink matrix is straight forward. The following code snippet shows how I did it.  
+\begin{lstlisting}[style=customc]
+int FromNodeId, ToNodeId;
+for (int k = 0; k < N_links; k++){
+  fscanf(fp, "%d %d", &FromNodeId, &ToNodeId);
+  (*table2D)[ToNodeId][FromNodeId] = (char) 1;
+}
+\end{lstlisting}
+
+\subsubsection{CRS storage}
+To extract the data from the file into CRS storage, we first must sort the arrays. I chose to sort this using the \textit{shellsort} algorithm with $\text{gap} = N/2$. The following code snippet shows the implementation.
+
+\begin{lstlisting}[style=customc]
+int tmp1, tmp2, i, j, gap;
+for (gap = *N_links/2; gap > 0; gap /= 2){
+  for (i = gap; i < *N_links; i++){
+  tmp1 = row_elems[i];
+  tmp2 = (*col_idx)[i];
+  for (j = i; j >= gap && row_elems[j-gap] > tmp1; j -= gap){
+    row_elems[j] = row_elems[j-gap];
+    (*col_idx)[j] = (*col_idx)[j-gap];
+  }
+  row_elems[j] = tmp1;
+  (*col_idx)[j] = tmp2;
+  }
+}
+\end{lstlisting}
+Here, row\_elems is just there to temporarily store row node ids. The row pointer is simply made using an array counting how many elements each row has. The following code demonstrates this.
+\begin{lstlisting}[style=customc]
+*row_ptr = (int*)calloc(*N+1, sizeof(int*));
+int count = 0;
+for (int i = 0; i < *N; i++){
+  count += row_count[i];
+  (*row_ptr)[i+1] = count;
+}
+\end{lstlisting}
+
+\subsection*{Counting mutual web links}
+\subsubsection*{Counting mutual web links with the hyperlink matrix}
+To count the number of web links
+
+
 \section{Results}
 
 \subsection*{Timing of serial codes}
@@ -113,11 +187,11 @@ The measured time of the serial implementations of the various functions are sho
 		\hline
 		Function name & Time in seconds \\
 		\hline
-		read\_graph\_from\_file1 & $0.174369$\\
-		count\_mutual\_links1 & $1133.817$\\
-		read\_graph\_from\_file2 & $0.990147$\\
-		count\_mutual\_links2 & $0.008971$\\
-		top\_n\_webpages & $0.068952$\\
+		read\_graph\_from\_file1 & $0.083591$\\
+		count\_mutual\_links1 & $0.885690$\\
+		read\_graph\_from\_file2 & $0.356536$\\
+		count\_mutual\_links2 & $0.001885$\\
+		top\_n\_webpages & $0.019348$\\
 		\hline
 	\end{tabular}\caption{The table shows the measured time using clock() from the Ctime-library. read\_graph\_from\_file1 and count\_mutual\_links1 was applied to a web-graph containing $N = 10000$ nodes and $N_\text{links} = 37841$ edges as found in the file test\_webpages.txt. The data in this file was extracted from web-NotreDame.txt.  read\_graph\_from\_file2 and count\_mutual\_links2 was applied directly to the web-graph contained in web-NotreDame.txt. This file contained $N = 325729$ nodes and $N_\text{links} = 1479143$ edges.}\label{tab:serial_codes}
 \end{table}
@@ -130,12 +204,12 @@ Using OpenMP to parallelize count\_mutual\_links1, the results in table \ref{tab
 		\hline
 		Number of threads & Time in seconds \\
 		\hline
-		$1$ & $1038.65$\\
-		$2$ & $572.79$\\
-		$4$ & $374.42$\\
-		$8$ & $312.68$\\
+		$1$ & $0.154304$\\
+		$2$ & $0.099997$\\
+		$4$ & $0.094823$\\
+		$8$ & $0.061277$\\
 		\hline
-	\end{tabular}\caption{The table presents the time used by the function count\_mutual\_links1 as a function of threads. The web-graph used contained $N = 10000$ nodes and $N_\text{links} = 37841$ edges as found in the file test\_webpages.txt. The data in this file was extracted from web-NotreDame.txt. All times were measured using omp\_get\_wtime().}\label{tab:count_mutual_links1_parallel}
+	\end{tabular}\caption{The table presents the time used by the function count\_mutual\_links1 as a function of threads. The web-graph used contained $N = 25000$ nodes and $N_\text{links} = 76837$ edges as found in the file test\_webpages.txt. The data in this file was extracted from web-NotreDame.txt. All times were measured using omp\_get\_wtime().}\label{tab:count_mutual_links1_parallel}
 \end{table}
 
 \subsection*{Parallelized version of count\_mutual\_links2}
@@ -146,16 +220,15 @@ Using OpenMP to parallelize count\_mutual\_links2 and measuring the time used by
 		\hline
 		Number of threads & Time in seconds \\
 		\hline
-		$1$ & $0.007014$\\
-		$2$ & $0.004470$\\
-		$4$ & $0.003221$\\
-		$8$ & $0.004967$\\
+		$1$ & $0.003617$\\
+		$2$ & $0.001156$\\
+		$4$ & $0.000713$\\
+		$8$ & $0.000716$\\
 		\hline
-	\end{tabular}\caption{The table shows the time used by count\_mutual\_links2 when parallelized with OpenMP as a function of number of threads. The function was applied to the web-graph contained in web-NotreDame.txt containing $N = 325729$ nodes and $N_\text{links} = 1479143$ edges.. The timing was done using the OpenMP library function omp\_get\_wtime().}\label{tab:count_mutual_links2_parallel}
+	\end{tabular}\caption{The table shows the time used by count\_mutual\_links2 when parallelized with OpenMP as a function of number of threads. The function was applied to the web-graph contained in web-NotreDame.txt containing $N = 325729$ nodes and $N_\text{links} = 1479143$ edges. The timing was done using the OpenMP library function omp\_get\_wtime().}\label{tab:count_mutual_links2_parallel}
 \end{table}
 \section{Discussion}
 \section{Conclusion}
-
 
 
 \end{document}

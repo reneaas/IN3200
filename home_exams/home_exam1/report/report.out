@@ -2,10 +2,18 @@
 \BOOKMARK [1][-]{section*.1}{Abstract}{section*.2}% 1
 \BOOKMARK [1][-]{section*.3}{Introduction}{section*.2}% 3
 \BOOKMARK [1][-]{section*.4}{Methods}{section*.2}% 4
-\BOOKMARK [2][-]{section*.5}{Shellsort}{section*.4}% 5
-\BOOKMARK [1][-]{section*.6}{Results}{section*.2}% 6
-\BOOKMARK [2][-]{section*.7}{Timing of serial codes}{section*.6}% 7
-\BOOKMARK [2][-]{section*.8}{Parallelized version of count\137mutual\137links1}{section*.6}% 8
-\BOOKMARK [2][-]{section*.9}{Parallelized version of count\137mutual\137links2}{section*.6}% 9
-\BOOKMARK [1][-]{section*.10}{Discussion}{section*.2}% 10
-\BOOKMARK [1][-]{section*.11}{Conclusion}{section*.2}% 11
+\BOOKMARK [2][-]{section*.5}{Webgraphs}{section*.4}% 5
+\BOOKMARK [2][-]{section*.6}{Hyperlink matrix representation of webgraphs}{section*.4}% 6
+\BOOKMARK [2][-]{section*.7}{Compressed row storage \(CRS\) of the hyperlink matrix}{section*.4}% 7
+\BOOKMARK [2][-]{section*.8}{Mutual web links}{section*.4}% 8
+\BOOKMARK [2][-]{section*.9}{Reading the Webgraph from file}{section*.4}% 9
+\BOOKMARK [3][-]{section*.10}{Hyperlink matrix storage}{section*.9}% 10
+\BOOKMARK [3][-]{section*.11}{CRS storage}{section*.9}% 11
+\BOOKMARK [2][-]{section*.12}{Counting mutual web links}{section*.4}% 12
+\BOOKMARK [3][-]{section*.13}{Counting mutual web links with the hyperlink matrix}{section*.12}% 13
+\BOOKMARK [1][-]{section*.14}{Results}{section*.2}% 14
+\BOOKMARK [2][-]{section*.15}{Timing of serial codes}{section*.14}% 15
+\BOOKMARK [2][-]{section*.16}{Parallelized version of count\137mutual\137links1}{section*.14}% 16
+\BOOKMARK [2][-]{section*.17}{Parallelized version of count\137mutual\137links2}{section*.14}% 17
+\BOOKMARK [1][-]{section*.18}{Discussion}{section*.2}% 18
+\BOOKMARK [1][-]{section*.19}{Conclusion}{section*.2}% 19

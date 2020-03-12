@@ -22,14 +22,15 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
     #pragma omp parallel for private(i, j, k, tmp) reduction(+:total_mutual_web_linkages)
     for (i = 0; i < N; i++){
       for (j = 0; j < N; j++){
-        tmp = table2D[i][j];
-        for (k = j + 1; k < N; k++){
-          if (table2D[i][k] == 1 && tmp == 1)
-              {
-                total_mutual_web_linkages++;
-                num_involvements[j]++;
-                num_involvements[k]++;
-              }
+        if (table2D[i][j] == 1){
+          for (k = j + 1; k < N; k++){
+            if (table2D[i][k] == 1)
+                {
+                  total_mutual_web_linkages++;
+                  num_involvements[j]++;
+                  num_involvements[k]++;
+                }
+          }
         }
       }
     }
@@ -38,14 +39,15 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   {
     for (i = 0; i < N; i++){
       for (j = 0; j < N; j++){
-        tmp = table2D[i][j];
-        for (k = j + 1; k < N; k++){
-          if (table2D[i][k] == 1 && tmp == 1)
-              {
-                total_mutual_web_linkages++;
-                num_involvements[j]++;
-                num_involvements[k]++;
-              }
+        if (table2D[i][j] == 1){
+          for (k = j + 1; k < N; k++){
+            if (table2D[i][k] == 1)
+                {
+                  total_mutual_web_linkages++;
+                  num_involvements[j]++;
+                  num_involvements[k]++;
+                }
+          }
         }
       }
     }
@@ -54,3 +56,20 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
 
   return total_mutual_web_linkages;
 }
+
+/*
+for (i = 0; i < N; i++){
+  for (j = 0; j < N; j++){
+    if (table2D[i][j] == 1){
+      for (k = j + 1; k < N; k++){
+        if (table2D[i][k] == 1)
+            {
+              total_mutual_web_linkages++;
+              num_involvements[j]++;
+              num_involvements[k]++;
+            }
+      }
+    }
+  }
+}
+*/

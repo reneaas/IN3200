@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
 
   #if defined(_OPENMP)
   {
-    int num_threads[4] = {1, 2, 4, 8};
+    int num_threads[10] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512};
     double start, end;
 
     //This section tests read_graph_from_file1
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]){
     fprintf(fp, "Timeused                Threads\n");
     int *num_involvements;
     int total_mutual_web_linkages;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 10; i++){
       omp_set_num_threads(num_threads[i]);
       num_involvements = (int*)calloc(N, sizeof(int));
       total_mutual_web_linkages = 0;
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]){
 
     fp = fopen("count_mutual_links2_parallel_results.txt", "w");
     fprintf(fp, "Timeused                Threads\n");
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 10; i++){
       omp_set_num_threads(num_threads[i]);
       num_involvements = (int*)calloc(N, sizeof(int)); //reset values
       total_mutual_web_linkages = 0;      //reset values.
