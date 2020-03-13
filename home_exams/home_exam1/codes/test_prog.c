@@ -103,6 +103,7 @@ int main(int argc, char *argv[]){
       printf("Total mutual web linkages = %d\n", total_mutual_web_linkages);
       printf("Timeused by count_mutual_links2 = %lf seconds\n", timeused);
       fprintf(fp, "%lf              %d\n", timeused, num_threads[i]);
+      top_n_webpages(N, num_involvements, (int) 10);
     }
     free(num_involvements);
     fclose(fp);

@@ -111,7 +111,7 @@
 \maketitle 
 \section{Introduction}
 In this report we look into the main algorithmic aspects of the code implementations and present time measurements of the serial and parallelized codes.
-\section{Methods}
+\section{Background}
 
 \subsection*{Webgraphs}
 Webgraphs describe hyperlinks between to webpages $i$ and $j$. Each webpage is represented by a node and the hyperlink between them is known as an edge. In this report I'll define $N$ as the number of nodes and $N_\text{links}$ as the number of edges in a \textit{directed }webgraph. By directed, we mean that the hyperlink $j\to i$ is distinct from $j\to i$.
@@ -129,6 +129,7 @@ where $r_i$ is the number of row elements of row $i$. The row pointer thus has l
 \subsection*{Mutual web linkages and number of involvements}
 \textit{Mutual web linkages} is defined as the number of times to outbound nodes $i$ and $j$ are directly linked to a inbound node $k$, with $i \neq j \neq k$. That is, it's a count of how many times the exists a hyperlink $i \to k$ and $j\to k$ simultaneously. The \textit{number of involvements} a given node has is defined as the number of times a given node is involved as an outbound node. That is how many times a node $i$ is involved in $i \to k$ with $j\to k$.
 
+\section{Implementation}
 \subsection*{Reading the Webgraph from file}
 \subsubsection{Hyperlink matrix storage}
 To extract the data to store in a hyperlink matrix is straight forward. The following code snippet shows how I did it.  
@@ -262,12 +263,12 @@ Using OpenMP to parallelize count\_mutual\_links2 and measuring the time used by
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.5]{count_mutual_links2_parallel.pdf}
+    \includegraphics[scale = 0.4]{count_mutual_links2_parallel.pdf}
     \caption{The figure shows the time used  in seconds by count\_mutual\_links2 on a webgraph consisting of $N = 325729$ nodes and $N_\text{links} = 1479143$ edges. The webgraph is found in the file web-NotreDame.txt}\label{fig:count_mutual_links2_parallel}
 \end{figure}
 
 \section{Concluding Remarks}
-As we can see from figure \ref{fig:count_mutual_links1_parallel}, increasing the number of threads acquires a significant speed up by increasing the number of threads. In the matrix representation, it makes sense to use threads in the range of $[500, 1000]$. When using the CRS format however, the sweetspot is not so easily deduced, but figure \ref{fig:count_mutual_links2_parallel} indicates that choosing the thread number between $[2^5, 2^6]$ gives the optimal speedup.
+As we can see from figure \ref{fig:count_mutual_links1_parallel}, increasing the number of threads acquires a significant speed up by increasing the number of threads. In the matrix representation, it makes sense to use threads in the range of $[500, 1000]$. When using the CRS format however, the sweetspot is not so easily deduced, but figure \ref{fig:count_mutual_links2_parallel} indicates that choosing the thread number to be about $8$ is the optimal solution.
 
 
 \end{document}

@@ -19,6 +19,8 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
       tmp = row_ptr[i];
       row_elems = row_ptr[i+1] - tmp;
       for (int j = 0; j < row_elems; j++){
+        //Insert atomic to avoid race conditions when updating num_involvements.
+        #pragma omp atomic
         num_involvements[col_idx[j+tmp]] += row_elems-1; //We add the mutual web link contribution to col_idx[j + row_ptr[i]]. Each column is equally involved in a given row.
       }
       total_mutual_web_linkages += (row_elems)*(row_elems-1);
