@@ -11,6 +11,7 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   */
 
   int total_mutual_web_linkages = 0;
+  int i, j, k;
   /*
   This algorithm is rather simple and does the following:
   For a chosen inbound web-page inbound1, we run over every other possible website larger than inbound1.
@@ -19,19 +20,19 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   */
   #if defined(_OPENMP)
   {
-    int i, j, k;
     #pragma omp parallel for private(i,j,k) reduction(+:total_mutual_web_linkages)
     for (i = 0; i < N; i++){
       for (j = 0; j < N; j++){
-        if (table2D[i][j] == 1){
+        if (table2D[i][j] == 1){      //Only check other elements on row is 1 if table2D[i][j] is 1.
           for (k = j + 1; k < N; k++){
             if (table2D[i][k] == 1)
                 {
                   total_mutual_web_linkages++;
+                  //Insertion of critical directive to avoid race conditions when updating num_involvements.
                   #pragma omp critical
                   {
-                    num_involvements[j]++;        //avoid race conditions when updating num_involvements[j].
-                    num_involvements[k]++;        //avoid race condition when updating num_involvements[k].
+                    num_involvements[j]++;
+                    num_involvements[k]++;
                   }
                 }
           }
@@ -41,7 +42,6 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
   }
   #else
   {
-    int i, j, k;
     for (i = 0; i < N; i++){
       for (j = 0; j < N; j++){
         if (table2D[i][j] == 1){
@@ -62,44 +62,3 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
 
   return total_mutual_web_linkages;
 }
-
-/*
-A fast implementation similar to the simpler one above.
-
-#pragma omp parallel
-{
-  int id, nthreads, thread_len, start_row, end_row, mutual_links = 0;
-  int i, j, k;
-
-  id = omp_get_thread_num();
-  nthreads = omp_get_num_threads();
-  thread_len = N/nthreads;
-  start_row = id*thread_len;
-  end_row = start_row + thread_len;
-  int *local_num_involvements = (int*)calloc(N, sizeof(int));
-
-  //int* local_num_involvements = (int*)calloc(N, sizeof(int));
-  for (int i = start_row; i < end_row; i++){
-    for (int j = 0; j < N; j++){
-      if (table2D[i][j] == 1){
-        for (int k = j + 1; k < N; k++){
-          if (table2D[i][k] == 1)
-              {
-                mutual_links++;
-                #pragma omp critical
-                {
-                  num_involvements[j]++;
-                  num_involvements[k]++;
-                }
-              }
-        }
-      }
-    }
-  }
-
-  #pragma omp atomic
-    total_mutual_web_linkages += mutual_links;
-
-}
-
-*/

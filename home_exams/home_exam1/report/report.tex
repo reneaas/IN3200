@@ -229,6 +229,47 @@ int gap, i, j, tmp1, tmp2;
 }
 \end{lstlisting}
 
+\subsection*{Parallelization of count\_mutual\_links1}
+The function count\_mutual\_links1 can easily be parallelized by a simple \#pragma omp parallel for directive. However, all threads need access to the entire num\_involvements array which can give rise to race conditions. We must therefore also insert a \#pragma omp critical region inside the inner loop. The following code demonstrates this.
+\begin{lstlisting}[style=customc]
+int i, j, k;
+#pragma omp parallel for private(i,j,k) reduction(+:total_mutual_web_linkages)
+for (i = 0; i < N; i++){
+  for (j = 0; j < N; j++){
+    if (table2D[i][j] == 1){
+      for (k = j + 1; k < N; k++){
+        if (table2D[i][k] == 1)
+          {
+            total_mutual_web_linkages++;
+            #pragma omp critical
+            {
+              num_involvements[j]++;
+              num_involvements[k]++;
+            }
+          }
+      }
+    }
+  }
+}
+\end{lstlisting}
+
+\subsection*{Parallelization of count\_mutual\_links2}
+This function is also readily parallelizable, but also here we must avoid race conditions. Here, however, we can use the \#pragma omp atomic directive instead. The following code shows the parallelized version.
+\begin{lstlisting}[style=customc]
+int tmp, row_elems;
+#pragma omp parallel for private(tmp, row_elems) reduction(+:total_mutual_web_linkages)
+for (int i = 0; i < N; i++){
+  tmp = row_ptr[i];
+  row_elems = row_ptr[i+1] - tmp;
+  for (int j = 0; j < row_elems; j++){
+    //Insert atomic to avoid race conditions when updating num_involvements.
+    #pragma omp atomic
+    num_involvements[col_idx[j+tmp]] += row_elems-1;
+  }
+  total_mutual_web_linkages += (row_elems)*(row_elems-1);
+}
+\end{lstlisting}
+
 
 \section{Results}
 

@@ -17,7 +17,6 @@ int main(int argc, char *argv[]){
 
   #if defined(_OPENMP)
   {
-    int num_threads[11] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
     double start, end;
 
     //This section tests read_graph_from_file1
@@ -40,8 +39,8 @@ int main(int argc, char *argv[]){
     fprintf(fp, "Timeused                Threads\n");
     int *num_involvements;
     int total_mutual_web_linkages;
-    for (int i = 0; i < 11; i++){
-      omp_set_num_threads(num_threads[i]);
+    for (int num_threads = 1; num_threads <= 2048; num_threads *= 2){
+      omp_set_num_threads(num_threads);
       num_involvements = (int*)calloc(N, sizeof(int));
       total_mutual_web_linkages = 0;
       start = omp_get_wtime();
@@ -51,7 +50,7 @@ int main(int argc, char *argv[]){
       //for (int i = 0; i < N; i++) printf("Webpage %d is involved = %d times\n", i+1, num_involvements[i]);
       printf("Total mutual web linkages = %d\n", total_mutual_web_linkages);
       printf("Timeused by count_mutual_links1 = %lf seconds\n", timeused);
-      fprintf(fp ,"%lf          %d\n", timeused, num_threads[i]);
+      fprintf(fp ,"%lf          %d\n", timeused, num_threads);
       top_n_webpages(N, num_involvements, (int) 10);
       free(num_involvements);
     }
@@ -92,8 +91,8 @@ int main(int argc, char *argv[]){
 
     fp = fopen("count_mutual_links2_parallel_results.txt", "w");
     fprintf(fp, "Timeused                Threads\n");
-    for (int i = 0; i < 11; i++){
-      omp_set_num_threads(num_threads[i]);
+    for (int num_threads = 1; num_threads <= 2048; num_threads *= 2){
+      omp_set_num_threads(num_threads);
       num_involvements = (int*)calloc(N, sizeof(int)); //reset values
       total_mutual_web_linkages = 0;      //reset values.
       start = omp_get_wtime();
@@ -102,7 +101,7 @@ int main(int argc, char *argv[]){
       timeused = end-start;
       printf("Total mutual web linkages = %d\n", total_mutual_web_linkages);
       printf("Timeused by count_mutual_links2 = %lf seconds\n", timeused);
-      fprintf(fp, "%lf              %d\n", timeused, num_threads[i]);
+      fprintf(fp, "%lf              %d\n", timeused, num_threads);
       top_n_webpages(N, num_involvements, (int) 10);
     }
     free(num_involvements);

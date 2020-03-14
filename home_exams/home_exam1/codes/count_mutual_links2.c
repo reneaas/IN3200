@@ -16,8 +16,8 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
   {
     #pragma omp parallel for private(tmp, row_elems) reduction(+:total_mutual_web_linkages)
     for (int i = 0; i < N; i++){
-      tmp = row_ptr[i];
-      row_elems = row_ptr[i+1] - tmp;
+      tmp = row_ptr[i];         //Create a tmp to avoid unnecessary loads in the inner loop.
+      row_elems = row_ptr[i+1] - tmp; //Compute row elements to avoid unnecessary loads in the inner loop.
       for (int j = 0; j < row_elems; j++){
         //Insert atomic to avoid race conditions when updating num_involvements.
         #pragma omp atomic
@@ -29,8 +29,8 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
   #else
   {
     for (int i = 0; i < N; i++){
-      tmp = row_ptr[i];
-      row_elems = row_ptr[i+1]-tmp;
+      tmp = row_ptr[i];     //Create a tmp to avoid unnecessary loads in the inner loop.
+      row_elems = row_ptr[i+1]-tmp;   //Compute row elements to avoid unnecessary loads in the inner loop.
       for (int j = 0; j < row_elems; j++){
         num_involvements[col_idx[j+tmp]] += row_elems-1;    //We add the mutual web link contribution to col_idx[j+row_ptr[i]]. Each column is equally involved in a given row.
       }

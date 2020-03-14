@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.12.3)  13 MAR 2020 17:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.12.3)  14 MAR 2020 17:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -676,95 +676,88 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <8> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 137.
- [1{/app/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 2165) in paragraph at lines 249--249
+ [1{/app/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
+Underfull \hbox (badness 2165) in paragraph at lines 290--290
 []\OT1/cmr/m/n/9 TABLE I. []The ta-ble shows the mea-sured time us-ing
  []
 
-<count_mutual_links1_parallel.pdf, id=127, 462.52798pt x 346.89601pt>
+<count_mutual_links1_parallel.pdf, id=206, 462.52798pt x 346.89601pt>
 File: count_mutual_links1_parallel.pdf Graphic file (type pdf)
 <use count_mutual_links1_parallel.pdf>
 Package pdftex.def Info: count_mutual_links1_parallel.pdf  used on input line 2
-56.
+97.
 (pdftex.def)             Requested size: 231.26341pt x 173.44757pt.
 
-Underfull \hbox (badness 1337) in paragraph at lines 257--257
+Underfull \hbox (badness 1337) in paragraph at lines 298--298
 \OT1/cmr/m/n/9 count[]mutual[]links1 on a we-b-graph con-sist-ing of $\OML/cmm/
 m/it/9 N \OT1/cmr/m/n/9 =
  []
 
-[2pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
+<count_mutual_links2_parallel.pdf, id=208, 602.73178pt x 398.2077pt>
+File: count_mutual_links2_parallel.pdf Graphic file (type pdf)
+<use count_mutual_links2_parallel.pdf>
+Package pdftex.def Info: count_mutual_links2_parallel.pdf  used on input line 3
+07.
+(pdftex.def)             Requested size: 241.08844pt x 159.28026pt.
+[3pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
 as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.259 
-      ]
-<count_mutual_links2_parallel.pdf, id=180, 602.73178pt x 398.2077pt>
-File: count_mutual_links2_parallel.pdf Graphic file (type pdf)
-<use count_mutual_links2_parallel.pdf>
-Package pdftex.def Info: count_mutual_links2_parallel.pdf  used on input line 2
-66.
-(pdftex.def)             Requested size: 241.08844pt x 159.28026pt.
-
-No file report.bbl.
-[3pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) 
-has been already used, duplicate ignored
+l.313 
+      pdfTeX warning (ext4): destination with the same identifier (name{figure.
+1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.274 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{figure.2}) has been already used, duplicate ignored
+l.313 
+      pdfTeX warning (ext4): destination with the same identifier (name{figure.
+2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.274 \end{document}
-                     <./count_mutual_links1_parallel.pdf> <./count_mutual_links
-2_parallel.pdf
+l.313 
+       <./count_mutual_links1_parallel.pdf> <./count_mutual_links2_parallel.pdf
+
 
 pdfTeX warning: /app/bin/x86_64-linux/pdflatex (file ./count_mutual_links2_para
 llel.pdf): PDF inclusion: multiple pdfs with page group included in a single pa
 ge
 >]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 274.
+No file report.bbl.
+[4]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 315.
  (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 274.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 274.
-
-
-Package rerunfilecheck Warning: File `report.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `report.out':
-(rerunfilecheck)             Before: 9E1742A2C5337A4607C0B0594E14F212;1435
-(rerunfilecheck)             After:  E23EEFCD570BFF0A173C0C35B0C4EA72;1497.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 315.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 315.
+Package rerunfilecheck Info: File `report.out' has not changed.
+(rerunfilecheck)             Checksum: 39AC70F3721ADCADA4085759CAEE1A83;1681.
  ) 
 Here is how much of TeX's memory you used:
- 20863 strings out of 492623
- 340259 string characters out of 6130947
- 799410 words of memory out of 5000000
- 24538 multiletter control sequences out of 15000+600000
- 539210 words of font info for 51 fonts, out of 8000000 for 9000
+ 20918 strings out of 492623
+ 340996 string characters out of 6130947
+ 868410 words of memory out of 5000000
+ 24556 multiletter control sequences out of 15000+600000
+ 539378 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  47i,9n,65p,659b,1230s stack positions out of 5000i,500n,10000p,200000b,80000s
 </app/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></app/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmbx9.pfb></app/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmex10.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</app/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></app/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi7.pfb></app/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi9.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></app
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></app/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmr7.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr9.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></app/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></app/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmti10.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9
-.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on report.pdf (3 pages, 210128 bytes).
+fonts/cm/cmex10.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb
+></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></app/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi5.pfb></app/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi7.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></a
+pp/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></app/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr6.pfb></app/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr7.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></app/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></app/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy7.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
+10.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></app/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on report.pdf (4 pages, 220761 bytes).
 PDF statistics:
- 327 PDF objects out of 1000 (max. 8388607)
- 247 compressed objects within 3 object streams
- 94 named destinations out of 1000 (max. 500000)
- 163 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 387 PDF objects out of 1000 (max. 8388607)
+ 304 compressed objects within 4 object streams
+ 130 named destinations out of 1000 (max. 500000)
+ 187 words of extra memory for PDF output out of 10000 (max. 10000000)
 
