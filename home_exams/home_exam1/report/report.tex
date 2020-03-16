@@ -291,21 +291,31 @@ The measured time of the serial implementations of the various functions are sho
 \end{table}
 
 \subsection*{Parallelized version of count\_mutual\_links1}
-Using OpenMP to parallelize count\_mutual\_links1 gave the results shown in figure \ref{fig:count_mutual_links1_parallel}
+Using OpenMP to parallelize count\_mutual\_links1 gave the time measurements shown in figure \ref{fig:count_mutual_links1_parallel}.
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.5]{count_mutual_links1_parallel.pdf}
     \caption{The figure shows the time used  in seconds by count\_mutual\_links1 on a webgraph consisting of $N = 50000$ nodes and $N_\text{links} = 146823$ edges. The webgraph was extracted from web-NotreDame.txt. The red points show the actual measured datapoints.}\label{fig:count_mutual_links1_parallel}
 \end{figure}
+The speedup relative to one thread is shown in figure \ref{fig:count_mutual_links1_speedup}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.5]{count_mutual_links1_speedup.pdf}
+    \caption{The figure shows speedup relative to a single thread by count\_mutual\_links1 on a webgraph consisting of $N = 50000$ nodes and $N_\text{links} = 146823$ edges. The webgraph was extracted from web-NotreDame.txt. The red points show the actual measured datapoints.}\label{fig:count_mutual_links1_speedup}
+\end{figure}
 
 \subsection*{Parallelized version of count\_mutual\_links2}
 Using OpenMP to parallelize count\_mutual\_links2 and measuring the time used by the function for different number of threads yielded the results shown in figure \ref{fig:count_mutual_links2_parallel}.
-
-
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.4]{count_mutual_links2_parallel.pdf}
     \caption{The figure shows the time used  in seconds by count\_mutual\_links2 on a webgraph consisting of $N = 325729$ nodes and $N_\text{links} = 1479143$ edges. The webgraph is found in the file web-NotreDame.txt}\label{fig:count_mutual_links2_parallel}
+\end{figure}
+The speedup relative to a single thread is shown in figure \ref{fig:count_mutual_links2_speedup}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.5]{count_mutual_links2_speedup.pdf}
+    \caption{The figure shows speedup relative to a single thread by count\_mutual\_links1 on a webgraph consisting of $N = 325729$ nodes and $N_\text{links} = 1479143$ edges. The webgraph is from the file web-NotreDame.txt. The red points show the actual measured datapoints.}\label{fig:count_mutual_links2_speedup}
 \end{figure}
 
 \section{Concluding Remarks}

@@ -5,11 +5,13 @@ import os
 if not os.path.exists("results/"):
     os.makedirs("results/")
 
+"""
 os.system("rm results/count_mutual_links1_parallel_results.txt")
 os.system("rm results/count_mutual_links2_parallel_results.txt")
 
 os.system("mv count_mutual_links1_parallel_results.txt results/")
 os.system("mv count_mutual_links2_parallel_results.txt results/")
+"""
 filename1 = "results/count_mutual_links1_parallel_results.txt"
 filename2 = "results/count_mutual_links2_parallel_results.txt"
 
@@ -43,7 +45,7 @@ plt.figure()
 plt.plot(threads, timeused1)
 plt.scatter(threads,timeused1, color = "r")
 plt.xlabel("log2(threads)", size = 14)
-plt.ylabel("timeused [s]", size = 14)
+plt.ylabel("Time [s]", size = 14)
 plt.xticks(size = 14)
 plt.yticks(size = 14)
 plt.savefig("count_mutual_links1_parallel.pdf")
@@ -53,8 +55,29 @@ plt.figure()
 plt.plot(threads, timeused2)
 plt.scatter(threads,timeused2, color = "r")
 plt.xlabel("log2(threads)", size = 14)
-plt.ylabel("timeused [s]", size = 14)
+plt.ylabel("Time [s]", size = 14)
 plt.xticks(size = 14)
 plt.yticks(size = 14)
 #plt.savefig("count_mutual_links2_parallel.pdf")
-plt.show()
+#plt.show()
+plt.close()
+
+plt.figure()
+plt.plot(threads, timeused1[0]/timeused1)
+plt.scatter(threads,timeused1[0]/timeused1, color = "r")
+plt.xlabel("log2(threads)", size = 14)
+plt.ylabel("Speedup", size = 14)
+plt.xticks(size = 14)
+plt.yticks(size = 14)
+plt.savefig("count_mutual_links1_speedup.pdf")
+plt.close()
+
+plt.figure()
+plt.plot(threads, timeused2[0]/timeused2)
+plt.scatter(threads, timeused2[0]/timeused2, color = "r")
+plt.xlabel("log2(threads)", size = 14)
+plt.ylabel("Speedup", size = 14)
+plt.xticks(size = 14)
+plt.yticks(size = 14)
+plt.savefig("count_mutual_links2_speedup.pdf")
+plt.close()

@@ -1,16 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+/*
+This function how many times nodes are involved as outbound in mutual web linkages.
+These are stored in num_involvements of length N which stores one value for each node.
+It also computes the total number of mutual linkages.
+The function is split into two parts, one if OpenMP is used and one if not.
+The parallelized version is simply using a #pragma omp parallel for with an atomic region
+to avoid race conditions when updating num_involvements since all threads need access to the entire array.
+*/
 int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num_involvements)
 {
-  /*
-  int row_elements: keeps track of how many elements there are on each row in the matrix.
-                    The point of this is that each node involved gets row_elements-1
-                    involvements.
-  int mutual_web_links: Used to logically distinguish it from row_elements.
-                        It's just equal to row_elements-1.
-  */
-
   int mutual_web_links, tmp, row_elems, total_mutual_web_linkages = 0;
   #if defined(_OPENMP)
   {

@@ -1,3 +1,10 @@
+"""
+This script reads web-NotreDame.txt and extracts all viable (FromNodeId, ToNodeId)-pairs
+that does not exceed the maximum allowed index value nodes-1. This code is written
+with the intent to create a medium large webgraph to be used with
+the hyperlink matrix representation used in part 1 of the home exam.
+"""
+
 import numpy as np
 
 
@@ -27,7 +34,7 @@ indices1 = np.where(FromNodeId > nodes)
 FromNodeId[indices1] = -1
 ToNodeId[indices1] = -1
 
-#Check where values are too large ToNodeId and remove them.
+#Check where values are too large in ToNodeId and remove them.
 indices2 = np.where(ToNodeId > nodes)
 FromNodeId[indices2] = -1
 ToNodeId[indices2] = -1
