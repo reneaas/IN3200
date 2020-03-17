@@ -35,7 +35,6 @@ int count_mutual_links1(int N, char **table2D, int *num_involvements)
           }
         }
       }
-
     }
   }
   #else

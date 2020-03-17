@@ -230,31 +230,15 @@ int gap, i, j, tmp1, tmp2;
 \end{lstlisting}
 
 \subsection*{Parallelization of count\_mutual\_links1}
-The function count\_mutual\_links1 can easily be parallelized by a simple \#pragma omp parallel for directive. However, all threads need access to the entire num\_involvements array which can give rise to race conditions. We must therefore also insert a \#pragma omp critical region inside the inner loop. The following code demonstrates this.
+To parallelize this function is straight forward by applying the following OpenMP directive on the outer loop
 \begin{lstlisting}[style=customc]
-int i, j, k;
-#pragma omp parallel for private(i,j,k) reduction(+:total_mutual_web_linkages)
-for (i = 0; i < N; i++){
-  for (j = 0; j < N; j++){
-    if (table2D[i][j] == 1){
-      for (k = j + 1; k < N; k++){
-        if (table2D[i][k] == 1)
-          {
-            total_mutual_web_linkages++;
-            #pragma omp critical
-            {
-              num_involvements[j]++;
-              num_involvements[k]++;
-            }
-          }
-      }
-    }
-  }
-}
+#pragma omp parallel for private(i, j, k) reduction(+: total_mutual_web_linkages, num_involvements[:N])
 \end{lstlisting}
+This is because we need to make the indices $i$, $j$ and $k$ private to each thread. To handle the possibility of race conditions when reading and updating the total\_mutual\_web\_linkages
+and elements in num\_involvements, we must also use the reduction clause.
 
 \subsection*{Parallelization of count\_mutual\_links2}
-This function is also readily parallelizable, but also here we must avoid race conditions. Here, however, we can use the \#pragma omp atomic directive instead. The following code shows the parallelized version.
+This function is also readily parallelizable, but also here we must avoid race conditions. Here, however, we can use the \#pragma omp atomic directive instead (simply because it provided more speedup than using the reduction clause on the array elements). The following code shows the parallelized version.
 \begin{lstlisting}[style=customc]
 int tmp, row_elems;
 #pragma omp parallel for private(tmp, row_elems) reduction(+:total_mutual_web_linkages)
@@ -319,7 +303,7 @@ The speedup relative to a single thread is shown in figure \ref{fig:count_mutual
 \end{figure}
 
 \section{Concluding Remarks}
-As we can see from figure \ref{fig:count_mutual_links1_parallel}, increasing the number of threads acquires a significant speed up by increasing the number of threads. In the matrix representation, it makes sense to use threads in the range of $[500, 1000]$. When using the CRS format however, the sweetspot is not so easily deduced, but figure \ref{fig:count_mutual_links2_parallel} indicates that choosing the thread number to be about $8$ is the optimal solution. Clearly
+
 
 
 \end{document}
