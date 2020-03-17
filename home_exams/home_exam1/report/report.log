@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.12.3)  16 MAR 2020 01:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.12.3)  17 MAR 2020 17:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -681,7 +681,7 @@ Underfull \hbox (badness 2165) in paragraph at lines 290--290
 []\OT1/cmr/m/n/9 TABLE I. []The ta-ble shows the mea-sured time us-ing
  []
 
-<count_mutual_links1_parallel.pdf, id=206, 462.52798pt x 346.89601pt>
+<count_mutual_links1_parallel.pdf, id=199, 462.52798pt x 346.89601pt>
 File: count_mutual_links1_parallel.pdf Graphic file (type pdf)
 <use count_mutual_links1_parallel.pdf>
 Package pdftex.def Info: count_mutual_links1_parallel.pdf  used on input line 2
@@ -693,46 +693,44 @@ Underfull \hbox (badness 1337) in paragraph at lines 298--298
 m/it/9 N \OT1/cmr/m/n/9 =
  []
 
-<count_mutual_links1_speedup.pdf, id=208, 462.52798pt x 346.89601pt>
+<count_mutual_links1_speedup.pdf, id=201, 462.52798pt x 346.89601pt>
 File: count_mutual_links1_speedup.pdf Graphic file (type pdf)
 <use count_mutual_links1_speedup.pdf>
 Package pdftex.def Info: count_mutual_links1_speedup.pdf  used on input line 30
 3.
 (pdftex.def)             Requested size: 231.26341pt x 173.44757pt.
-<count_mutual_links2_parallel.pdf, id=210, 609.23611pt x 426.39299pt>
+<count_mutual_links2_parallel.pdf, id=203, 462.52798pt x 346.89601pt>
 File: count_mutual_links2_parallel.pdf Graphic file (type pdf)
 <use count_mutual_links2_parallel.pdf>
 Package pdftex.def Info: count_mutual_links2_parallel.pdf  used on input line 3
 11.
-(pdftex.def)             Requested size: 243.69012pt x 170.55417pt.
+(pdftex.def)             Requested size: 231.26341pt x 173.44757pt.
 [3pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
 as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.314 T
-       he speedup relative to a single thread is shown in figure \ref{fig:co...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
-s been already used, duplicate ignored
+l.313 \end{figure}
+                  pdfTeX warning (ext4): destination with the same identifier (
+name{figure.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.314 T
-       he speedup relative to a single thread is shown in figure \ref{fig:co...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
-s been already used, duplicate ignored
+l.313 \end{figure}
+                  pdfTeX warning (ext4): destination with the same identifier (
+name{figure.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.314 T
-       he speedup relative to a single thread is shown in figure \ref{fig:co...
- <./count_mutual_links1_parallel.pdf> <./count_mutual_links1_speedup.pdf
+l.313 \end{figure}
+                   <./count_mutual_links1_parallel.pdf> <./count_mutual_links1_
+speedup.pdf
 
 pdfTeX warning: /app/bin/x86_64-linux/pdflatex (file ./count_mutual_links1_spee
 dup.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
 e
 >]
-<count_mutual_links2_speedup.pdf, id=300, 462.52798pt x 346.89601pt>
+<count_mutual_links2_speedup.pdf, id=297, 462.52798pt x 346.89601pt>
 File: count_mutual_links2_speedup.pdf Graphic file (type pdf)
 <use count_mutual_links2_speedup.pdf>
 Package pdftex.def Info: count_mutual_links2_speedup.pdf  used on input line 31
@@ -767,13 +765,13 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 39AC70F3721ADCADA4085759CAEE1A83;1681.
  ) 
 Here is how much of TeX's memory you used:
- 20932 strings out of 492623
- 341474 string characters out of 6130947
- 868410 words of memory out of 5000000
- 24566 multiletter control sequences out of 15000+600000
+ 20934 strings out of 492623
+ 341494 string characters out of 6130947
+ 888410 words of memory out of 5000000
+ 24568 multiletter control sequences out of 15000+600000
  539378 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 47i,9n,65p,659b,1230s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 47i,9n,65p,659b,1906s stack positions out of 5000i,500n,10000p,200000b,80000s
 </app/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></app/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmbx9.pfb></app/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmex10.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb
@@ -787,9 +785,9 @@ m/cmr7.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></app/texmf
 blic/amsfonts/cm/cmsy7.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
 10.pfb></app/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></app/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on report.pdf (4 pages, 240748 bytes).
+Output written on report.pdf (4 pages, 241284 bytes).
 PDF statistics:
- 455 PDF objects out of 1000 (max. 8388607)
+ 454 PDF objects out of 1000 (max. 8388607)
  319 compressed objects within 4 object streams
  132 named destinations out of 1000 (max. 500000)
  197 words of extra memory for PDF output out of 10000 (max. 10000000)

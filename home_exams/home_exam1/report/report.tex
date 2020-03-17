@@ -107,32 +107,32 @@
 \date{\today}                             % self-explanatory
 \noaffiliation                            % ignore this
                                           % marks the end of the abstracthttps://github.com/reneaas/fys2160.git
-                               
-\maketitle 
+
+\maketitle
 \section{Introduction}
 In this report we look into the main algorithmic aspects of the code implementations and present time measurements of the serial and parallelized codes.
 \section{Background}
 
 \subsection*{Webgraphs}
-Webgraphs describe hyperlinks between to webpages $i$ and $j$. Each webpage is represented by a node and the hyperlink between them is known as an edge. In this report I'll define $N$ as the number of nodes and $N_\text{links}$ as the number of edges in a \textit{directed }webgraph. By directed, we mean that the hyperlink $j\to i$ is distinct from $j\to i$.
+Webgraphs describe hyperlinks between to webpages $i$ and $j$. Each webpage is represented by a node and the hyperlink between them is known as an edge. In this report I'll define $N$ as the number of nodes and $N_\text{links}$ as the number of edges in a \textit{directed }webgraph. By directed, we mean that the hyperlink $j\to i$ is distinct from $i \to j$.
 
 \subsection*{Hyperlink matrix representation of webgraphs}
-Webgraphs can be represented by what is called a hyperlink matrix $A$. An element $A_{ij} = 1$ if there exists a hyperlink $i \to j$. If no such link exists, $A_{ij} = 0$.
+Webgraphs can be represented by what is called a hyperlink matrix $A$. An element $A_{ij} = 1$ if there exists a hyperlink $j \to i$. If no such link exists, $A_{ij} = 0$. In the implementation described in this report, we allow no self-links $i \to i$ such that $A_{ii} = 0$ for all $i$.
 
 \subsection*{Compressed row storage (CRS) of the hyperlink matrix}
-For large webgraphs, it's expected that the hyperlink matrix will consist mainly of zeros. Since the storage in the matrix format scales with $N^2$ where $N$ is the number of nodes, storing the data becomes a bottleneck. The CRS format is based on to different arrays, a row pointer storing how many row elements that accumulates of a set of rows $n$ and column index array that stores the column index for a given element. Let $r$ denote the row pointer. The general form of the row pointer is 
+For large webgraphs, it's expected that the hyperlink matrix will mainly consist of zeros. Since the storage in the matrix format scales with $N^2$, storing the data becomes a bottleneck. The CRS format is based on two different arrays. There's the \textit{row pointer} which stores information about how many row elements the webgraph has. Let $r$ denote the row pointer array. The following equation shows the general form of this array.
 \begin{equation}\label{eq:row_pointer}
 	r = (0, r_0, r_0 + r_1,..., r_0 + r_1 + \cdots + r_{N-1}),
-\end{equation} 
-where $r_i$ is the number of row elements of row $i$. The row pointer thus has length $N+1$. The column index array is of length $N_\text{links}$ and stores the column indices for each row. To extract how many row elements there are row $i$, we take the difference $r_{i}-r_{i-1}$.
+\end{equation}
+where $r_i$ is the number of row elements of row $i$. The row pointer thus has length $N+1$. To extract how many row elements there are on row $i$, we take the difference $r_{i}-r_{i-1}$. The second array is called a \textit{column index} array and is of length $N_\text{links}$ and stores the column indices for each row.
 
 \subsection*{Mutual web linkages and number of involvements}
-\textit{Mutual web linkages} is defined as the number of times to outbound nodes $i$ and $j$ are directly linked to a inbound node $k$, with $i \neq j \neq k$. That is, it's a count of how many times the exists a hyperlink $i \to k$ and $j\to k$ simultaneously. The \textit{number of involvements} a given node has is defined as the number of times a given node is involved as an outbound node. That is how many times a node $i$ is involved in $i \to k$ with $j\to k$.
+\textit{Mutual web linkages} is defined as the number of times to outbound nodes $i$ and $j$ are directly linked to a inbound node $k$, with $i \neq j \neq k$. That is, it's a count of how many times there exists a hyperlink $i \to k$ and $j\to k$ simultaneously. The \textit{number of involvements} a given node has is defined as the number of times a given node is involved as an outbound node. That is how many times a node $i$ is involved in $i \to k$ with $j\to k$.
 
 \section{Implementation}
 \subsection*{Reading the Webgraph from file}
 \subsubsection{Hyperlink matrix storage}
-To extract the data to store in a hyperlink matrix is straight forward. The following code snippet shows how I did it.  
+To extract the data to store in a hyperlink matrix is straight forward. The following code snippet shows how I did it.
 \begin{lstlisting}[style=customc]
 int FromNodeId, ToNodeId;
 for (int k = 0; k < N_links; k++){
@@ -142,7 +142,7 @@ for (int k = 0; k < N_links; k++){
 \end{lstlisting}
 
 \subsubsection{CRS storage}
-To extract the data from the file into CRS storage, we first must sort the arrays. I chose to sort this using the \textit{shellsort} algorithm with $\text{gap} = N/2$. The following code snippet shows the implementation.
+To extract the data from the file into CRS storage, we must first sort the arrays. I chose to sort this using the \textit{shellsort} algorithm with $\text{gap} = N/2$. The following code snippet shows the implementation.
 
 \begin{lstlisting}[style=customc]
 int tmp1, tmp2, i, j, gap;
@@ -171,21 +171,21 @@ for (int i = 0; i < *N; i++){
 
 \subsection*{Counting mutual web links}
 \subsubsection{Counting mutual web links with the hyperlink matrix}
-To count the number of web links that each node is an outbound participant is in principle a simple matter when we use the hyperlink matrix representation. It is simply to check when $A_{ij} = A_{ik} = 1$ with $i\neq j \neq k$. However, to make the code implementation efficient, it's important to do this economically. For a given node $i$, we should check every $j \neq i$ and only if $A_{ij} = 1$ should we check whether $A_{ik} = 1$. The following code demonstrates how this can be implemented. It also counts the total number of web linkages
+To count the number of web links that each node is an outbound participant is in principle a simple matter when we use the hyperlink matrix representation. It is simply to check when $A_{ij} = A_{ik} = 1$ with $i\neq j \neq k$. However, to make the code implementation efficient, it's important to do this economically. The algorithm goes as follows: For a given node $i$, we check every $j$ and only if $A_{ij} = 1$ should we count the mutual linkages and number of involvements. One way to do this is to insert an if test and check if $A_{ik} = 1$ and add $1$ to both variables. However, since $A_{ik}$ is either $0$ or $1$, we might as well just add the matrix element itself and avoid the if-test entirely. The following code demonstrates how this can be implemented. It also counts the total number of web linkages
 which is just the total number of times mutual web links occur.
 
 \begin{lstlisting}[style=customc]
+int counter;
 for (i = 0; i < N; i++){
   for (j = 0; j < N; j++){
+    counter = 0;
     if (table2D[i][j] == 1){
-      for (k = j + 1; k < N; k++){
-      if (table2D[i][k] == 1)
-        {
-          total_mutual_web_linkages++;
-          num_involvements[j]++;
-          num_involvements[k]++;
-        }
+      for (k = j+1; k < N; k++){
+        counter += table2D[i][k];
+        num_involvements[k] += table2D[i][k];
       }
+      num_involvements[j] += counter;
+      total_mutual_web_linkages += counter;
     }
   }
 }
@@ -197,13 +197,13 @@ To count the total number of web links in this format, we can reduce the number 
     S = \sum_{k = 0}^{m_i-1} k = \frac{m_i(m_i-1)}{2},
 \end{equation}
 where the standard formula for the sum of the $m_i-1$ first integers were used. The following code snippet shows the implementation.
- 
+
 \begin{lstlisting}[style=customc]
 for (int i = 0; i < N; i++){
   tmp = row_ptr[i];
   row_elems = row_ptr[i+1]-tmp;
   for (int j = 0; j < row_elems; j++){
-    num_involvements[col_idx[j+tmp]] += row_elems-1;  
+    num_involvements[col_idx[j+tmp]] += row_elems-1;
   }
   total_mutual_web_linkages += (row_elems)*(row_elems-1);
 }
@@ -281,13 +281,13 @@ The measured time of the serial implementations of the various functions are sho
 		\hline
 		Function name & Time in seconds \\
 		\hline
-		read\_graph\_from\_file1 & $0.083591$\\
-		count\_mutual\_links1 & $0.885690$\\
+		read\_graph\_from\_file1 & $0.179096$\\
+		count\_mutual\_links1 & $1.799104$\\
 		read\_graph\_from\_file2 & $0.356536$\\
 		count\_mutual\_links2 & $0.001885$\\
 		top\_n\_webpages & $0.019348$\\
 		\hline
-	\end{tabular}\caption{The table shows the measured time using clock() from the Ctime-library. read\_graph\_from\_file1 and count\_mutual\_links1 was applied to a web-graph containing $N = 10000$ nodes and $N_\text{links} = 37841$ edges as found in the file test\_webpages.txt. The data in this file was extracted from web-NotreDame.txt.  read\_graph\_from\_file2 and count\_mutual\_links2 was applied directly to the web-graph contained in web-NotreDame.txt. This file contained $N = 325729$ nodes and $N_\text{links} = 1479143$ edges.}\label{tab:serial_codes}
+	\end{tabular}\caption{The table shows the measured time using clock() from the Ctime-library. read\_graph\_from\_file1 and count\_mutual\_links1 was applied to a web-graph containing $N = 5000$ nodes and $N_\text{links} = 146823$ edges as found in the file test\_webpages.txt. The data in this file was extracted from web-NotreDame.txt.  read\_graph\_from\_file2 and count\_mutual\_links2 was applied directly to the web-graph contained in web-NotreDame.txt. This file contained $N = 325729$ nodes and $N_\text{links} = 1479143$ edges.}\label{tab:serial_codes}
 \end{table}
 
 \subsection*{Parallelized version of count\_mutual\_links1}
@@ -308,7 +308,7 @@ The speedup relative to one thread is shown in figure \ref{fig:count_mutual_link
 Using OpenMP to parallelize count\_mutual\_links2 and measuring the time used by the function for different number of threads yielded the results shown in figure \ref{fig:count_mutual_links2_parallel}.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.4]{count_mutual_links2_parallel.pdf}
+    \includegraphics[scale = 0.5]{count_mutual_links2_parallel.pdf}
     \caption{The figure shows the time used  in seconds by count\_mutual\_links2 on a webgraph consisting of $N = 325729$ nodes and $N_\text{links} = 1479143$ edges. The webgraph is found in the file web-NotreDame.txt}\label{fig:count_mutual_links2_parallel}
 \end{figure}
 The speedup relative to a single thread is shown in figure \ref{fig:count_mutual_links2_speedup}.
@@ -319,8 +319,7 @@ The speedup relative to a single thread is shown in figure \ref{fig:count_mutual
 \end{figure}
 
 \section{Concluding Remarks}
-As we can see from figure \ref{fig:count_mutual_links1_parallel}, increasing the number of threads acquires a significant speed up by increasing the number of threads. In the matrix representation, it makes sense to use threads in the range of $[500, 1000]$. When using the CRS format however, the sweetspot is not so easily deduced, but figure \ref{fig:count_mutual_links2_parallel} indicates that choosing the thread number to be about $8$ is the optimal solution.
+As we can see from figure \ref{fig:count_mutual_links1_parallel}, increasing the number of threads acquires a significant speed up by increasing the number of threads. In the matrix representation, it makes sense to use threads in the range of $[500, 1000]$. When using the CRS format however, the sweetspot is not so easily deduced, but figure \ref{fig:count_mutual_links2_parallel} indicates that choosing the thread number to be about $8$ is the optimal solution. Clearly
 
 
 \end{document}
-

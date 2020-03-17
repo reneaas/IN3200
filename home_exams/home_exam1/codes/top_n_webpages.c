@@ -1,16 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 void top_n_webpages(int num_webpages, int *num_involvements, int n)
 {
-
-
   int *webpage_number = (int*)calloc(num_webpages, sizeof(int));
   int top_webpage_count = 0;
   int max_value = -1;       //Since the lowest value of involvements a webpage carry is 0, I set it to -1 to guarantee it's lower than any other value.
 
   for (int i = 0; i < num_webpages; i++) webpage_number[i] = i;
-
 
   //Using shell sort but to sort num_involvements in descending order.
   int gap, i, j, tmp1, tmp2;

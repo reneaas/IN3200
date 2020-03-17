@@ -70,6 +70,9 @@ int main(int argc, char *argv[]){
     printf("-------------------------------------------------------------------------\n");
     free(num_involvements);
 
+    for (int i = 0; i < N; i++) free(hyperlink_matrix[i]);
+    free(hyperlink_matrix);
+
 
     //From here on out we test the CRS format functions of the project.
     N = 0;
