@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "read_graph_from_file1.h"
-#include "read_graph_from_file2.h"
-#include "count_mutual_links1.h"
-#include "count_mutual_links2.h"
-#include "top_n_webpages.h"
+#include "functions.h"
 #include <omp.h>
 
 int main(int argc, char *argv[]){
@@ -39,7 +35,7 @@ int main(int argc, char *argv[]){
     fprintf(fp, "Timeused                Threads\n");
     int *num_involvements;
     int total_mutual_web_linkages;
-    for (int num_threads = 1; num_threads <= 2048; num_threads *= 2){
+    for (int num_threads = 1; num_threads <= 1024; num_threads *= 2){
       omp_set_num_threads(num_threads);       //Tells OpenMP how many threads to fork.
       num_involvements = (int*)calloc(N, sizeof(int));    //Allocate memory
       total_mutual_web_linkages = 0;
@@ -95,7 +91,7 @@ int main(int argc, char *argv[]){
 
     fp = fopen("count_mutual_links2_parallel_results.txt", "w");
     fprintf(fp, "Timeused                Threads\n");
-    for (int num_threads = 1; num_threads <= 2048; num_threads *= 2){
+    for (int num_threads = 1; num_threads <= 32; num_threads *= 2){
       omp_set_num_threads(num_threads);
       num_involvements = (int*)calloc(N, sizeof(int)); //reset values
       total_mutual_web_linkages = 0;      //reset values.

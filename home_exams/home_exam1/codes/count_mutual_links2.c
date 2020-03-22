@@ -12,35 +12,44 @@ to avoid race conditions when updating num_involvements since all threads need a
 */
 int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num_involvements)
 {
-  int mutual_web_links, tmp, row_elems, mutual_links, total_mutual_web_linkages = 0;
+  int mutual_links, total_mutual_web_linkages = 0;
   #if defined(_OPENMP)
   {
-    #pragma omp parallel for private(tmp, row_elems, mutual_links) reduction(+:total_mutual_web_linkages)
+    #pragma omp parallel for private(mutual_links) reduction(+:total_mutual_web_linkages, num_involvements[:N])
     for (int i = 0; i < N; i++){
-      tmp = row_ptr[i];         //Create a tmp to avoid unnecessary loads in the inner loop.
-      row_elems = row_ptr[i+1] - tmp; //Compute row elements to avoid unnecessary loads in the inner loop.
-      mutual_links = row_elems - 1;
-      for (int j = 0; j < row_elems; j++){
-        //Avoid race conditions using atomic.
-        #pragma omp atomic
-        num_involvements[col_idx[j+tmp]] += mutual_links; //We add the mutual web link contribution to col_idx[j + row_ptr[i]]. Each column is equally involved in a given row.
-      }
+      mutual_links = row_ptr[i+1]-row_ptr[i]-1;
       total_mutual_web_linkages += (mutual_links+1)*mutual_links;
+      for (int j = row_ptr[i]; j < row_ptr[i+1]; j++){
+        num_involvements[col_idx[j]] += mutual_links;    //We add the mutual web link contribution to col_idx[j]. Each column is equally involved in a given row.
+      }
     }
   }
   #else
   {
     for (int i = 0; i < N; i++){
-      tmp = row_ptr[i];     //Create a tmp to avoid unnecessary loads in the inner loop.
-      row_elems = row_ptr[i+1]-tmp;   //Compute row elements to avoid unnecessary loads in the inner loop.
-      mutual_links = row_elems - 1;
-      for (int j = 0; j < row_elems; j++){
-        num_involvements[col_idx[j+tmp]] += mutual_links;    //We add the mutual web link contribution to col_idx[j+row_ptr[i]]. Each column is equally involved in a given row.
-      }
+      mutual_links = row_ptr[i+1]-row_ptr[i]-1;
       total_mutual_web_linkages += (mutual_links+1)*mutual_links;
+      for (int j = row_ptr[i]; j < row_ptr[i+1]; j++){
+        num_involvements[col_idx[j]] += mutual_links;    //We add the mutual web link contribution to col_idx[j]. Each column is equally involved in a given row.
+      }
     }
+
+
+
   }
   #endif
 
   return 0.5*total_mutual_web_linkages;
 }
+
+
+/*
+#pragma omp parallel for private(mutual_links) reduction(+:total_mutual_web_linkages, num_involvements[:N])
+for (int i = 0; i < N; i++){
+  mutual_links = row_ptr[i+1]-row_ptr[i]-1;
+  total_mutual_web_linkages += (mutual_links+1)*mutual_links;
+  for (int j = row_ptr[i]; j < row_ptr[i+1]; j++){
+    num_involvements[col_idx[j]] += mutual_links;    //We add the mutual web link contribution to col_idx[j+row_ptr[i]]. Each column is equally involved in a given row.
+  }
+}
+*/
