@@ -201,6 +201,9 @@ int main(int argc, char *argv[]){
     printf("Timeused by count_mutual_links2 = %lf seconds\n", timeused);
     fprintf(fp, "count_mutual_links2                  %lf\n", timeused);
 
+    free(row_ptr);
+    free(col_idx);
+
     //testing top_n_webpages
     n = 10;
     printf("-------------------------------------------------------------------------\n");
@@ -212,9 +215,8 @@ int main(int argc, char *argv[]){
     printf("Timeused by top_n_webpages = %lf seconds\n", timeused);
     fprintf(fp, "top_n_webpages                 %lf\n", timeused);
     fclose(fp);
-    free(num_involvements);
-    free(row_ptr);
-    free(col_idx);
+
+    free(num_involvements); //Free up memory.
   }
   #endif
 
