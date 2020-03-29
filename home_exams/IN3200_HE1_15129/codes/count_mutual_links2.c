@@ -4,7 +4,7 @@
 
 
 /*
-This function how many times nodes are involved as outbound in mutual web linkages.
+This function counts how many times nodes are involved as outbound in mutual web linkages.
 These are stored in num_involvements of length N which stores one value for each node.
 It also computes the total number of mutual linkages.
 The function is split into two parts, one if OpenMP is used and one if not.
@@ -24,6 +24,7 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
   int mutual_links, total_mutual_web_linkages = 0;
   #if defined(_OPENMP)
   {
+    //Note that this region uses array reduction which requires a gcc compiler compatible with OpenMP 4.5 or newer.
     #pragma omp parallel for private(mutual_links) reduction(+:total_mutual_web_linkages, num_involvements[:N])
     for (int i = 0; i < N; i++){
       mutual_links = row_ptr[i+1]-row_ptr[i]-1;
