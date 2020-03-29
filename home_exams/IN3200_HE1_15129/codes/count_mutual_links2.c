@@ -47,15 +47,3 @@ int count_mutual_links2(int N, int N_links, int *row_ptr, int *col_idx, int *num
 
   return 0.5*total_mutual_web_linkages;
 }
-
-
-/*
-#pragma omp parallel for private(mutual_links) reduction(+:total_mutual_web_linkages, num_involvements[:N])
-for (int i = 0; i < N; i++){
-  mutual_links = row_ptr[i+1]-row_ptr[i]-1;
-  total_mutual_web_linkages += (mutual_links+1)*mutual_links;
-  for (int j = row_ptr[i]; j < row_ptr[i+1]; j++){
-    num_involvements[col_idx[j]] += mutual_links;    //We add the mutual web link contribution to col_idx[j]. Each column is equally involved in a given row.
-  }
-}
-*/

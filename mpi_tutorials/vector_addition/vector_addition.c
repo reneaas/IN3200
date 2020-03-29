@@ -26,6 +26,7 @@ int main(int argc, char const *argv[]) {
       y[i] = i;
     }
   }
+  MPI_Barrier(MPI_COMM_WORLD);
 
   //Broadcast the length of the vectors to all processes.
   MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);   //Process 0 broadcasts n to all other processes.
