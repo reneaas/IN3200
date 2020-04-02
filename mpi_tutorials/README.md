@@ -56,3 +56,16 @@ MPI_Gather(const void *sendbuf,
           MPI_Comm comm)
 
 ```            
+
+
+## MPI_Allgather
+
+```c++
+MPI_Allgather(const void *sendbuf,
+              int sendcount,
+              MPI_Datatype sendtype,
+              void *recvbuf,
+              int recvcount,
+              MPI_Datatype recvtype,
+              MPI_Comm comm)
+```

@@ -1,6 +1,6 @@
 Function name                      Timeused [s]
-read_graph_from_file1                0.174705
-count_mutual_links1              1.840538
-read_graph_from_file2                0.029944
-count_mutual_links2                  0.000312
-top_n_webpages                 0.002294
+read_graph_from_file1                0.208822
+count_mutual_links1              1.885391
+read_graph_from_file2                0.034654
+count_mutual_links2                  0.000410
+top_n_webpages                 0.003605

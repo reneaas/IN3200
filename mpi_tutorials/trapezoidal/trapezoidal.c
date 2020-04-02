@@ -36,8 +36,9 @@ int main(int argc, char const *argv[]) {
   x = a_local;
 
   I_local += 0.5*(1/( 1 + (double) a_local*a_local) + 1/( 1 + (double) b_local*b_local));
-  for (int i = 0; i < n_local; i++){
-    x += h;
+  for (int i = 0; i < n_local-1; i++){
+    x = local_a + (i+1)*h;
+
     I_local += 1/(1 + x*x);
   }
 
