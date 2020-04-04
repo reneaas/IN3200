@@ -5,7 +5,9 @@
 #define pi_const 3.14159265359
 
 int main(int argc, char const *argv[]) {
-  int M = 14;
+  int M;
+  printf("Give M\n");
+  scanf("%d", &M);
 
   double *um = (double*)malloc((M+2)*sizeof(double));
   double *u = (double*)malloc((M+2)*sizeof(double));
