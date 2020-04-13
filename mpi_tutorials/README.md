@@ -108,7 +108,8 @@ Usually, it's sufficient to pass status = MPI_STATUS_IGNORE in this function.
 To perform reductions, we can use MPI_Reduce:
 ```c++
 MPI_Reduce(const void *sendbuf,
-          void *recvbuf, int count,
+          void *recvbuf,
+          int count,
           MPI_Datatype datatype,
           MPI_Op op,
           int root,
