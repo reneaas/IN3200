@@ -17,6 +17,10 @@ int **col_idx: pointer that stores indices of column elements.
 */
 void read_graph_from_file2(char *filename, int *N, int *N_links, int **row_ptr, int **col_idx)
 {
+  if (filename == NULL){
+    printf("File name not found. Provide a file name to read data from.\n");
+    exit(1);
+  }
   int max_line_length = 128;
   char *line_buffer = (char*)malloc(max_line_length*sizeof(char));
   FILE *fp = fopen(filename, "r");

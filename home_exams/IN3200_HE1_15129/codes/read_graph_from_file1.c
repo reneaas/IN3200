@@ -15,6 +15,10 @@ char ***table2D: hyperlink matrix of dimension N x N to store the hyperlinks.
 */
 void read_graph_from_file1(char *filename, int *N, char ***table2D)
 {
+  if (filename == NULL){
+    printf("File name not found. Provide a file name to read data from.\n");
+    exit(1);
+  }
   int max_line_length = 128;
   char *line_buffer = (char*)malloc(max_line_length*sizeof(char));
   FILE *fp = fopen(filename, "r");

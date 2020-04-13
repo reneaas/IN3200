@@ -93,7 +93,7 @@ MPI_Send(const void *buf,
 Recieve message from process tag at process dest.
 
 ```c++
-int MPI_Recv(void *buf,
+MPI_Recv(void *buf,
             int count,
             MPI_Datatype datatype,
             int source,
