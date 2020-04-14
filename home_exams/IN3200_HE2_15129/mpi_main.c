@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   if (rank == 0){
-    M = 27000;
-    N = 27000;
+    M = 2700;
+    N = 2700;
     max_rand = 10;
     v = (int**)malloc(M*sizeof(int*));
     for (int i = 0; i < M; i++) v[i] = (int*)malloc(N*sizeof(int));
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
   timeused = end-start;
   MPI_Barrier(MPI_COMM_WORLD);
   if (rank == 0){
-    printf("Friends of ten = %d\n", num_triple_friends);
+    printf("num_triple_friends = %d\n", num_triple_friends);
     printf("Time used = %lf\n", timeused);
 
     /*

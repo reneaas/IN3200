@@ -51,6 +51,54 @@ MPI_Scatter(const void *sendbuf,
 ```
 Note that sendcount and recvcount are the same here and they are not the same as the length of the sendbuf.
 
+### Scatter arbitrary chunks of data among the processes
+
+```c++
+MPI_Scatterv(const void *sendbuf,
+              const int *sendcounts,
+              const int *displs,
+              MPI_Datatype sendtype,
+              void *recvbuf,
+              int recvcount,
+              MPI_Datatype recvtype,
+              int root,
+              MPI_Comm comm)
+```
+We must create the send buffer *sendbuf* which stores the actual data we want to distribute. The other new and important objects to understand is:
+1. *sendcount* stores how many items each process will receive.
+2. *displs* is an cumulative array storing how many items the processes receives.
+
+
+Generally they can be created in the following way.
+
+```c++
+int Local_N = N/comm_sz;
+int remainder = N % comm_sz;
+displs[0] = 0;
+for (int rank = 0; rank < comm_sz-1; rank++){
+  sendcounts[rank] = number_of_objects[rank];
+  displs[rank+1] = displs[rank] + sendcounts[rank];
+}
+//Account for remainder
+sendcounts[comm_sz-1] = number_of_objects[comm_sz-1] + remainder_objects;
+```
+
+Below is an example of its usage. It's used to distribute rows a generic (M x N)-matrix among the processes.
+
+```c++
+int rows = N/comm_sz;
+int row_remainder = (N % comm_sz);
+
+for (int rank = 0; rank < comm_sz-1; rank++){
+  n_rows[rank] = rows;
+  sendcounts[rank] = n_rows[rank] * N;
+  displs[rank+1] = displs[rank] + sendcounts[rank];
+}
+n_rows[comm_sz-1] = rows + row_remainder;
+sendcounts[comm_sz-1] = n_rows[comm_sz-1] * N;
+```
+
+
 ### Gather data from all processes to process 0
 ```c++
 MPI_Gather(const void *sendbuf,

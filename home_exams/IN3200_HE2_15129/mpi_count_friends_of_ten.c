@@ -38,10 +38,6 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
   }
   n_rows[comm_sz-1] = rows + row_remainder;
   sendcounts[comm_sz-1] = n_rows[comm_sz-1]*N;
-  printf("Process 0 has %d rows\n", n_rows[0]);
-  printf("Process %d has %d rows\n", comm_sz-1, n_rows[comm_sz-1]);
-
-
 
   /* Flatten matrix v */
   int *v_flat;
@@ -59,7 +55,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
   }
   end = MPI_Wtime();
   timeused = end-start;
-  printf("Time used flattening array = %lf\n", timeused);
+  if (my_rank == 0) printf("Time used flattening array = %lf\n", timeused);
 
 
   /* Scatter the data among the processes. Process comm_sz-1 gets the remainder */
