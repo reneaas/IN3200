@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   if (rank == 0){
-    M = 2700;
-    N = 2700;
+    M = 20000;
+    N = 20000;
     max_rand = 10;
     v = (int**)malloc(M*sizeof(int*));
     for (int i = 0; i < M; i++) v[i] = (int*)malloc(N*sizeof(int));

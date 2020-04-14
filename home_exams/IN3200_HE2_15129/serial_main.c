@@ -8,8 +8,8 @@ int main(int argc, char *argv[]) {
   int M, N, **v, max_rand, num_triple_friends;
   clock_t start, end;
   double timeused;
-  M = 2700;
-  N = 2700;
+  M = 20000;
+  N = 20000;
   max_rand = 10;
   v = (int**)malloc(M*sizeof(int*));
   for (int i = 0; i < M; i++) v[i] = (int*)malloc(N*sizeof(int));
