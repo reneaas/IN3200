@@ -9,7 +9,6 @@ int count_friends_of_ten(int M, int N, int ** v)
 
 
   for (i = 0; i < M; i++){
-    //printf("Working on row %d of %d\r", i, M);
     for (j = 0; j < N; j++){
       /* Check for friends of ten along row i */
       tmp = 0;

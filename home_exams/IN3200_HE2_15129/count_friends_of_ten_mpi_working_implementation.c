@@ -60,8 +60,8 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
 
 
   // Scatter the data among the processes. Process comm_sz-1 gets the remainder
-  MPI_Scatterv(v_flat, sendcounts, send_displs, MPI_INT, v_local, N*n_rows[my_rank], MPI_INT, 0, MPI_COMM_WORLD
-  */
+  MPI_Scatterv(v_flat, sendcounts, send_displs, MPI_INT, v_local, N*n_rows[my_rank], MPI_INT, 0, MPI_COMM_WORLD);
+
 
   /* Print the results to check the matrix is distributed correctly */
   /*
