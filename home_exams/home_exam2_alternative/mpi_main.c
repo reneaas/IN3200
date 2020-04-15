@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   if (rank == 0){
-    M = 150;  //Number of rows
-    N = 150;  //Number of columns
+    M = 2500;  //Number of rows
+    N = 2500;  //Number of columns
     max_rand = 10;
     v = malloc(M*sizeof(int*));
     v[0] = malloc(M*N*sizeof(int));

@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   if (rank == 0){
-    M = 150;
-    N = 150;
+    M = 2500;
+    N = 2500;
     max_rand = 10;
     v = (int**)malloc(M*sizeof(int*));
     for (int i = 0; i < M; i++) v[i] = (int*)malloc(N*sizeof(int));
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     /* Randomly initialize the matrix */
     //srand(time(0));
     printf("Creating matrix...\n");
-    srand(3);
+    srand(2);
     for (int i = 0; i < M; i++){
       for (int j = 0; j < N; j++){
         v[i][j] = rand() % max_rand;

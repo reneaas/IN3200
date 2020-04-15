@@ -36,37 +36,39 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
   }
   //In case of any remainder rows left, the last process get's them.
   n_rows[comm_sz-1] = rows + row_remainder;
+  int my_rows = n_rows[my_rank];
 
-  printf("Rank %d got n_rows = %d\n", my_rank, n_rows[my_rank]);
+  //Allocate local arrays to store the processes' partition of the data
   int **v_local = (int**)malloc(n_rows[my_rank]*sizeof(int*));
   for (i = 0; i < n_rows[my_rank]; i++) v_local[i] = (int*)malloc(N*sizeof(int));
   // Send the respective rows to each process
   if (my_rank == 0){
-    int cum_rows = 0;
+    int cumulative_rows = 0;
     for (int rank = 1; rank < comm_sz; rank++){
-      cum_rows += n_rows[rank-1];
+      cumulative_rows += n_rows[rank-1];
       //printf("Sending data to process %d\n", rank);
       for (i = 0; i < n_rows[rank]; i++){
-        MPI_Send(v[cum_rows + i], N, MPI_INT, rank, rank, MPI_COMM_WORLD);
+        MPI_Send(v[cumulative_rows + i], N, MPI_INT, rank, rank, MPI_COMM_WORLD);
       }
     }
-    for (i = 0; i < n_rows[my_rank]; i++){
+    // Give process 0 its partition of the data
+    for (i = 0; i < my_rows; i++){
       for (j = 0; j < N; j++){
         v_local[i][j] = v[i][j];
       }
     }
   }
   else{
-    for (i = 0; i < n_rows[my_rank]; i++){
+    //Each process receives their partition of the data
+    for (i = 0; i < my_rows; i++){
       MPI_Recv(v_local[i], N, MPI_INT, 0, my_rank, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
   }
-  //printf("rank %d finished receiving\n", my_rank);
-  MPI_Barrier(MPI_COMM_WORLD);
 
   start = MPI_Wtime();
 
-  for (i = 0; i < n_rows[my_rank]; i++){
+
+  for (i = 0; i < my_rows; i++){
     //printf("Working on row %d of %d\r", i, M);
     for (j = 0; j < N; j++){
       /* Check for friends of ten along row i */
@@ -78,21 +80,21 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
 
       /* Check for friends of ten along column j */
       tmp = 0;
-      for (k = 0; k < 3 && i < n_rows[my_rank]-2; k++){
+      for (k = 0; k < 3 && i < my_rows-2; k++){
         tmp += v_local[i+k][j];
       }
       if (tmp == 10) num_triple_friends_local++;
 
       /* Check for friends of ten along the diagonal (i,j), (i+1,j+1), (i+2, j+2) */
       tmp = 0;
-      for (k = 0; k < 3 && i < n_rows[my_rank]-2 && j < N-2; k++){
+      for (k = 0; k < 3 && i < my_rows-2 && j < N-2; k++){
         tmp += v_local[i+k][j+k];
       }
       if (tmp == 10) num_triple_friends_local++;
 
       /* Check for friends of ten along the diagonal (i,j), (i+1, j-1), (i+2, j-2) */
       tmp = 0;
-      for (k = 0; k < 3 && i < n_rows[my_rank]-2 && j-k >= 0; k++){
+      for (k = 0; k < 3 && i < my_rows-2 && j-k >= 0; k++){
         tmp += v_local[i+k][j-k];
       }
       if (tmp == 10) num_triple_friends_local++;
@@ -100,7 +102,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
   }
 
 
-  // Process 0 must clean up around the boundaries
+  // Process 0 must clean up around the boundaries 
   int stride = 0;
   if (my_rank == 0){
     for (int rank = 0; rank < comm_sz-1; rank++){
