@@ -8,8 +8,8 @@ int main(int argc, char *argv[]) {
   int M, N, **v, max_rand, num_triple_friends;
   clock_t start, end;
   double timeused;
-  M = 150;
-  N = 170;
+  M = 2600;
+  N = 2600;
   max_rand = 10;
   v = (int**)malloc(M*sizeof(int*));
   for (int i = 0; i < M; i++) v[i] = (int*)malloc(N*sizeof(int));
@@ -32,20 +32,9 @@ int main(int argc, char *argv[]) {
   printf("num_triple_friends = %d\n", num_triple_friends);
   printf("Time used = %lf\n", timeused);
 
-  for (int i = 0; i < M; i++){
-    for (int j = 0; j < N;j++){
-      printf("%d ", v[i][j]);
-    }
-    printf("\n");
-  }
+  for (int i = 0; i < M; i++) free(v[i]);
+  free(v);
 
-  FILE *fp = fopen("random_matrix.txt", "w");
-  for (int i = 0; i < M; i++){
-    for (int j = 0; j < N; j++){
-      fprintf("%d\n", v[i][j]);
-    }
-  }
-  fclose(fp);
 
   return 0;
 }

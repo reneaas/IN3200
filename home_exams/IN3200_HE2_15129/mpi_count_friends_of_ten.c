@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "functions.h"
 #include <mpi.h>
+#include <omp.h>
+
 
 int MPI_count_friends_of_ten(int M, int N, int** v)
 {
@@ -25,17 +27,11 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
   int row_remainder = (M % comm_sz);
 
   //Distributed rows among the processes as evenly as possible
-  for (int rank = 0; rank < comm_sz-1; rank++){
-    if (row_remainder > 0){
-      n_rows[rank] = rows + 1;
-      row_remainder--;
-    }
-    else{
-      n_rows[rank] = rows;
-    }
+  n_rows[0] = rows; //Rank 0 will do work after the parallel stuff, so it get's the fewest rows in case of remainders.
+  for (int rank = 1; rank < comm_sz; rank++){
+    n_rows[rank] = rows + (row_remainder > 0);
+    row_remainder--;
   }
-  //In case of any remainder rows left, the last process get's them.
-  n_rows[comm_sz-1] = rows + row_remainder;
   int my_rows = n_rows[my_rank];
 
   //Allocate local arrays to store the processes' partition of the data
@@ -46,7 +42,6 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
     int cumulative_rows = 0;
     for (int rank = 1; rank < comm_sz; rank++){
       cumulative_rows += n_rows[rank-1];
-      //printf("Sending data to process %d\n", rank);
       for (i = 0; i < n_rows[rank]; i++){
         MPI_Send(v[cumulative_rows + i], N, MPI_INT, rank, rank, MPI_COMM_WORLD);
       }
@@ -67,9 +62,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
 
   start = MPI_Wtime();
 
-
   for (i = 0; i < my_rows; i++){
-    //printf("Working on row %d of %d\r", i, M);
     for (j = 0; j < N; j++){
       /* Check for friends of ten along row i */
       tmp = 0;
@@ -102,7 +95,7 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
   }
 
 
-  // Process 0 must clean up around the boundaries 
+  // Process 0 must clean up around the boundaries
   int stride = 0;
   if (my_rank == 0){
     for (int rank = 0; rank < comm_sz-1; rank++){
@@ -168,8 +161,11 @@ int MPI_count_friends_of_ten(int M, int N, int** v)
   MPI_Allreduce(&num_triple_friends_local, &num_triple_friends, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
   end = MPI_Wtime();
   timeused = end-start;
+  double max_timeused = 0;
+  MPI_Reduce(&timeused, &max_timeused, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
   if (my_rank == 0){
-    printf("Time of computation = %lf\n", timeused);
+    printf("Time of computation = %lf\n", max_timeused);
+    printf("Time used measure by rank 0 = %lf\n", timeused);
   }
   return num_triple_friends;
 }

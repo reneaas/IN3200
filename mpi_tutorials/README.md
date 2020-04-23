@@ -76,25 +76,28 @@ int Local_N = N/comm_sz;
 int remainder = N % comm_sz;
 displs[0] = 0;
 for (int rank = 0; rank < comm_sz-1; rank++){
-  sendcounts[rank] = number_of_objects[rank];
+  sendcounts[rank] = number_of_objects + (remainder > 0);
   displs[rank+1] = displs[rank] + sendcounts[rank];
+  remainder--;
+
 }
-//Account for remainder
-sendcounts[comm_sz-1] = number_of_objects[comm_sz-1] + remainder_objects;
+//Update sendcount for last process.
+sendcounts[comm_sz-1] = number_of_objects[comm_sz-1] + remainder;
 ```
 
-Below is an example of its usage. It's used to distribute rows a generic (M x N)-matrix among the processes.
+Below is an example of its usage. It's used to distribute rows of a generic (M x N)-matrix among the processes.
 
 ```c++
-int rows = N/comm_sz;
-int row_remainder = (N % comm_sz);
+int rows = M/comm_sz;
+int row_remainder = (M % comm_sz);
 
 for (int rank = 0; rank < comm_sz-1; rank++){
-  n_rows[rank] = rows;
+  n_rows[rank] = rows + (row_remainder > 0);
   sendcounts[rank] = n_rows[rank] * N;
   displs[rank+1] = displs[rank] + sendcounts[rank];
+  row_remainder--;
 }
-n_rows[comm_sz-1] = rows + row_remainder;
+n_rows[comm_sz-1] = rows + (row_remainder > 0);
 sendcounts[comm_sz-1] = n_rows[comm_sz-1] * N;
 ```
 
