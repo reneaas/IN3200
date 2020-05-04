@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
 
     /* Randomly initialize the matrix */
     //srand(time(0));
+    printf("v[1][0] = %lf\n", v[1][0]);
     printf("Creating matrix...\n");
     srand(3);
     for (int i = 0; i < M; i++){
