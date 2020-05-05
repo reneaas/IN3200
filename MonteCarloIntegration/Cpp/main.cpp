@@ -8,8 +8,8 @@
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-  int N = 10000000, max_int = 100000;
-  double max_inv, x, y, alpha, beta, alpha_inv, beta_inv, integral = 0;
+  int N = 1000000000, max_int = 10000;
+  double max_inv, alpha, beta, alpha_inv, beta_inv, integral = 0;
   double tmp1, tmp2;
   max_inv = 1.0/max_int;
   alpha = 1;
@@ -20,16 +20,16 @@ int main(int argc, char const *argv[]) {
 	srand(1);
   //srand(time(0)); //Set up random seed
 
-  random_device rd;
-  mt19937_64 gen(rd());
-  uniform_real_distribution<double> RandomNumberGenerator(0,1);
-
-
   #ifdef _OPENMP
   {
     start = omp_get_wtime();
-    #pragma omp parallel private(x,y,tmp1,tmp2)
+    #pragma omp parallel
     {
+      //Define a private random uniform generator for each thread.
+      random_device rd;
+      mt19937_64 gen(rd());
+      uniform_real_distribution<double> RandomNumberGenerator(0,1);
+      double x, y;
       #pragma omp for reduction(+:integral)
       for (int i = 0; i < N; i++){
         x = RandomNumberGenerator(gen);
@@ -49,6 +49,10 @@ int main(int argc, char const *argv[]) {
   }
   #else
   {
+    double x, y;
+    random_device rd;
+    mt19937_64 gen(rd());
+    uniform_real_distribution<double> RandomNumberGenerator(0,1);
     start = clock();
     for (int i = 0; i < N; i++){
       //printf("Iteration = %d of %d\r", iteration, N);

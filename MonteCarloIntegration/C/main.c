@@ -5,27 +5,31 @@
 #include <omp.h>
 
 int main(int argc, char const *argv[]) {
-  int N = 1000000, max_int = 100000;
-  double max_inv, x, y, alpha, beta, alpha_inv, beta_inv, integral = 0;
+  int N = 1000000000, max_int = 10000;
+  double max_inv, alpha, beta, alpha_inv, beta_inv, integral = 0;
   double tmp1, tmp2;
   max_inv = 1.0/max_int;
   alpha = 1;
   beta = 0.5;
   alpha_inv = 1./alpha;
-  beta_inv = 2;
+  beta_inv = 1./beta;
   double start, end, timeused;
-	srand(1);
-  //srand(time(0)); //Set up random seed
+	//srand(1);
+  srand(time(0)); //Set up random seed
 
   #ifdef _OPENMP
   {
     start = omp_get_wtime();
-    #pragma omp parallel private(x,y,tmp1,tmp2)
+    #pragma omp parallel
     {
+      double x,y;
+      int id = omp_get_thread_num();
+      int cache_line = 42;
+      int seed = id + cache_line;
       #pragma omp for reduction(+:integral)
       for (int i = 0; i < N; i++){
-        x = (rand() % max_int)*max_inv;
-        y = (rand() % max_int)*max_inv;
+        x = (rand_r(&seed) % max_int)*max_inv;  //Used instead of rand() to avoid false sharing.
+        y = (rand_r(&seed) % max_int)*max_inv;  //Used instead of rand() to avoid false sharing.
 
         x = -alpha_inv*log(1-x);
         y = -beta_inv*log(1-y);
@@ -41,9 +45,9 @@ int main(int argc, char const *argv[]) {
   }
   #else
   {
+    double x, y;
     start = clock();
     for (int i = 0; i < N; i++){
-      //printf("Iteration = %d of %d\r", iteration, N);
       x = (rand() % max_int)*max_inv;
       y = (rand() % max_int)*max_inv;
 

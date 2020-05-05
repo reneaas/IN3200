@@ -9,7 +9,7 @@ execute:
 	./main.exe
 
 compile_parallel:
-	gcc -O3 -fopenmp -o parallel_main.exe omp_main.c -lm
+	gcc -O3 -fopenmp -o parallel_main.exe main.c -lm -fopt-info
 
 execute_parallel:
 	./parallel_main.exe

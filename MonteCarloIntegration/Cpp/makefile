@@ -9,7 +9,7 @@ execute_parallel:
 serial: compile execute
 
 compile:
-	g++ -O3 -fopenmp -o main.exe main.cpp
+	g++ -O3 -o main.exe main.cpp
 
 execute:
 	./main.exe
