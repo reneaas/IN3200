@@ -9,13 +9,16 @@ int main()
 	int N = 25000;
 	srand(1);
 	int **a = (int**)malloc(N*sizeof(int*));
+	int **a_new = malloc(N*sizeof *a);
 	int **b = malloc(N*sizeof *b);
 	for (int i = 0; i < N; i++){
 		a[i] = (int*)malloc(N*sizeof(int));
+		a_new[i] = malloc(N*sizeof *a_new[i]);
 		b[i] = malloc(N*sizeof *b[i]);
 	}
 
 	double *c = malloc(N*sizeof *c);
+	double *c_new = malloc(N*sizeof *c_new);
 	int *d = malloc(N*sizeof *d);
 	int *e = malloc(N*sizeof *e);
 
@@ -29,52 +32,43 @@ int main()
 
 	clock_t start, end;
 	double timeused;
-	double exponential = exp(1.0/N);
-	double tmp = 1;
-	int tmp2;
 	double pi_div_n = 3.1415926/N;
 	double n_div = 1/N;
-	start = clock();
-	for (int i = 0; i < N; i++) c[i] = exp(i*n_div) + sin(pi_div_n*i);
+	double tmp = 1, exponential = exp(n_div);
+	int tmp2;
 
-	for (int i = 0; i < N; i+=4){
-		for (int j = 0; j < N; j++){
-			a[i][j] = b[i][j] + d[i]*e[j];
-			a[i+1][j] = b[i+1][j] + d[i+1]*e[j];
-			a[i+2][j] = b[i+2][j] + d[i+2]*e[j];
-			a[i+3][j] = b[i+3][j] + d[i+3]*e[j];
-		}
-	}
-	for (int i = N - N%4; i < N; i++){
-		for (int j = 0; j < N; j++){
-			a[i][j] = b[i][j] + d[i]*e[j];
-		}
-	}
-
-
-	end = clock();
-	timeused = (double) (end-start)/CLOCKS_PER_SEC;
-	printf("timeused = %lf\n", timeused);
 
 	start = clock();
 	for (int i = 0; i < N; i++){
-		c[i] = exp(1.0*i/N) + sin(3.1415926*i/N);
+	//	c[i] = exp(i*n_div) + sin(i*pi_div_n);
+		c[i] = exp(i/N) + sin(3.1415926*i/N);
+		//tmp *= exponential;
+		tmp2 = d[i];
 		for (int j = 0; j < N; j++){
-			a[i][j] = b[i][j] + d[i]*e[j];
+			a[i][j] = b[i][j] + tmp2*e[j];
 		}
 	}
 	end = clock();
 	timeused = (double) (end-start)/CLOCKS_PER_SEC;
 	printf("timeused before = %lf\n", timeused);
 
-}
-
-
-/*
-for (int i = 0; i < N; i++){
-	c[i] = exp(1.0*i/N) + sin(3.1415926*i/N);
-	for (int j = 0; j < N; j++){
-		a[j][i] = b[j][i] + d[j]*e[i];
+	for (int i = 0; i < N; i++){
+		c[i] = 0.;
+		for (int j = 0; j < N; j++){
+			a[i][j] = 0;
+		}
 	}
+
+	start = clock();
+	for (int i = 0; i < N; i++){
+		c_new[i] = exp(i/N) + sin(3.1415926*i/N);
+		for (int j = 0; j < N; j++){
+			a_new[i][j] = b[i][j] + d[i]*e[j];
+		}
+	}
+	end = clock();
+	timeused = (double) (end-start)/CLOCKS_PER_SEC;
+	printf("timeused = %lf\n", timeused);
+
+
 }
-*/
