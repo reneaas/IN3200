@@ -8,7 +8,7 @@ test_serial.exe:
 	gcc -O3 -o $@ $(wildcard *.c) -fopt-info -march=native
 
 test_parallel.exe:
-	gcc -O3 -fopenmp -o $@ $(wildcard *.c)
+	gcc -O3 -fopenmp -o $@ $(wildcard *.c) -march=native
 
 clean:
 	rm test_serial.exe test_parallel.exe
