@@ -12,8 +12,7 @@ int main(){
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
     if (my_rank == 0){
-      N = 10000000;
-      double N_inv = 1/((double) N);
+      N = 3124000;
       a = malloc(N*sizeof *a);
       for (int i = 0; i < N; i++){
         a[i] = 0.0001*i;
