@@ -9,7 +9,7 @@ execute_serial:
 	./serial_main.exe
 
 parallel_main:
-	mpicc -03 -o mpi_main.exe $(wildcard mpi*.c) -mtune=native -march=native
+	mpicc -O3 -o mpi_main.exe $(wildcard mpi*.c) -mtune=native -march=native
 
 parallel_execute:
-	mpirun -n 4 ./mpi_main.exe
+	mpirun -n 24 --oversubscribe ./mpi_main.exe

@@ -8,7 +8,8 @@
 using namespace std;
 
 int main(int argc, char const *argv[]) {
-    int N = pow(2,30), max_int = 10000;
+    int max_int = 10000;
+    int N = (int) pow(2,30);
     double max_inv, alpha, beta, alpha_inv, beta_inv, integral = 0;
     double tmp1, tmp2;
     max_inv = 1.0/max_int;
@@ -21,7 +22,7 @@ int main(int argc, char const *argv[]) {
     //srand(time(0)); //Set up random seed
 
     #ifdef _OPENMP
-    {   
+    {
         start = omp_get_wtime();
         #pragma omp parallel
         {
